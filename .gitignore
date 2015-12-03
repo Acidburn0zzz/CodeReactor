@@ -1,7 +1,6 @@
 # Logs
 logs
 *.log
-npm-debug.log*
 
 # Runtime data
 pids
@@ -17,15 +16,16 @@ coverage
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 
-# node-waf configuration
-.lock-wscript
-
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
 
 # Dependency directory
-# https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
+# Commenting this out is preferred by some people, see
+# https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git-
 node_modules
+
+# Users Environment Variables
+.lock-wscript
 
 # =========================
 # Operating System Files
@@ -41,13 +41,9 @@ node_modules
 # Thumbnails
 ._*
 
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
+# Files that might appear on external disk
 .Spotlight-V100
-.TemporaryItems
 .Trashes
-.VolumeIcon.icns
 
 # Directories potentially created on remote AFP share
 .AppleDB
@@ -77,3 +73,19 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# nwjs builder cache
+/cache/
+
+# build directory
+/build/
+
+# NW.js
+/locales/
+/*.dll
+/*.exe
+/*.pak
+/*.dat
+/nwjc
+/nw
+/libffmpegsumo.so

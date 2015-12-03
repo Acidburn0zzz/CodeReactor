@@ -1,0 +1,263 @@
+<!--
+ * @author      Alex Mourtziapis <alex.mourtziapis@gmail.com>
+ * @license     {@link http://opensource.org/licenses/MIT|MIT License}
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+
+    <title>Code Reactor</title>
+
+    <!-- JQuery -->
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+
+    <!-- JQuery Hotkeys -->
+    <script src="node_modules/jquery.hotkeys/jquery.hotkeys.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap-theme.min.css">
+
+    <!-- CodeMirror -->
+    <script src="node_modules/codemirror/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="node_modules/codemirror/lib/codemirror.css">
+
+    <!--  CodeMirror Theme/s  -->
+    <link rel="stylesheet" href="node_modules/codemirror/theme/monokai.css">
+    <link rel="stylesheet" href="src/theme/glsl.css">
+
+    <!--/////////////////////-->
+    <!--  CodeMirror Keymaps -->
+    <!--/////////////////////-->
+    <script src="node_modules/codemirror/keymap/emacs.js"></script>
+    <script src="node_modules/codemirror/keymap/sublime.js"></script>
+    <script src="node_modules/codemirror/keymap/vim.js"></script>
+
+    <!--////////////////////-->
+    <!--  CodeMirror Addons -->
+    <!--////////////////////-->
+        <!-- selection -->
+    <script src="node_modules/codemirror/addon/selection/active-line.js"></script>
+        <!-- edit -->
+    <script src="node_modules/codemirror/addon/edit/matchbrackets.js"></script>
+    <script src="node_modules/codemirror/addon/edit/closebrackets.js"></script>
+        <!-- comment -->
+    <script src="node_modules/codemirror/addon/comment/comment.js"></script>
+        <!-- search -->
+    <script src="node_modules/codemirror/addon/search/searchcursor.js"></script>
+    <script src="node_modules/codemirror/addon/search/search.js"></script>
+        <!-- fold -->
+    <script src="node_modules/codemirror/addon/fold/brace-fold.js"></script>
+    <script src="node_modules/codemirror/addon/fold/foldcode.js"></script>
+    <script src="node_modules/codemirror/addon/fold/comment-fold.js"></script>
+        <!-- mode -->
+    <script src="node_modules/codemirror/addon/mode/simple.js"></script>
+
+    <!--//////////////////////-->
+    <!--  CodeMirror Mode(s)  -->
+    <!--//////////////////////-->
+
+    <script src="node_modules/codemirror/mode/apl/apl.js"></script>                         <!-- APL -->
+    <script src="node_modules/codemirror/mode/asciiarmor/asciiarmor.js"></script>           <!-- ASCIIARMOR -->
+    <script src="node_modules/codemirror/mode/asn.1/asn.1.js"></script>                     <!-- ASN.1 -->
+    <script src="node_modules/codemirror/mode/asterisk/asterisk.js"></script>               <!-- ASTERISK -->
+    <script src="node_modules/codemirror/mode/brainfuck/brainfuck.js"></script>             <!-- BRAINFUCK -->
+
+    <script src="node_modules/codemirror/mode/clike/clike.js"></script>                     <!-- CLIKE -->
+    <script src="node_modules/codemirror/mode/clojure/clojure.js"></script>                 <!-- CLOJJURE -->
+    <script src="node_modules/codemirror/mode/cmake/cmake.js"></script>                     <!-- CMAKE -->
+    <script src="node_modules/codemirror/mode/cobol/cobol.js"></script>                     <!-- COBOL -->
+    <script src="node_modules/codemirror/mode/coffeescript/coffeescript.js"></script>       <!-- COFFESCRIPT -->
+    <script src="node_modules/codemirror/mode/commonlisp/commonlisp.js"></script>           <!-- COMMONLISP -->
+    <script src="node_modules/codemirror/mode/css/css.js"></script>                         <!-- CSS -->
+    <script src="node_modules/codemirror/mode/cypher/cypher.js"></script>                   <!-- CYPHER -->
+
+    <script src="node_modules/codemirror/mode/d/d.js"></script>                             <!-- D -->
+    <script src="node_modules/codemirror/mode/dart/dart.js"></script>                       <!-- DART -->
+    <script src="node_modules/codemirror/mode/diff/diff.js"></script>                       <!-- DIFF -->
+    <script src="node_modules/codemirror/mode/django/django.js"></script>                   <!-- DJANGO -->
+    <script src="node_modules/codemirror/mode/dockerfile/dockerfile.js"></script>           <!-- DOCKERFILE -->
+    <script src="node_modules/codemirror/mode/dtd/dtd.js"></script>                         <!-- DTD -->
+    <script src="node_modules/codemirror/mode/dylan/dylan.js"></script>                     <!-- DYLAN -->
+
+    <script src="node_modules/codemirror/mode/ebnf/ebnf.js"></script>                       <!-- EBNF -->
+    <script src="node_modules/codemirror/mode/ecl/ecl.js"></script>                         <!-- ECL -->
+    <script src="node_modules/codemirror/mode/eiffel/eiffel.js"></script>                   <!-- EIFFEL -->
+    <script src="node_modules/codemirror/mode/elm/elm.js"></script>                         <!-- ELM -->
+    <script src="node_modules/codemirror/mode/erlang/erlang.js"></script>                   <!-- ERLANG -->
+
+    <script src="node_modules/codemirror/mode/factor/factor.js"></script>                   <!-- FACTOR -->
+    <script src="node_modules/codemirror/mode/forth/forth.js"></script>                     <!-- FORTH -->
+    <script src="node_modules/codemirror/mode/fortran/fortran.js"></script>                 <!-- FORTRAN -->
+
+    <script src="node_modules/codemirror/mode/gas/gas.js"></script>                         <!-- GAS -->
+    <script src="node_modules/codemirror/mode/gfm/gfm.js"></script>                         <!-- GFM -->
+    <script src="node_modules/codemirror/mode/gherkin/gherkin.js"></script>                 <!-- GHERKIN -->
+    <script src="src/mode/glsl.js"></script>                                                <!-- GLSL -->
+    <script src="node_modules/codemirror/mode/go/go.js"></script>                           <!-- GO -->
+    <script src="node_modules/codemirror/mode/groovy/groovy.js"></script>                   <!-- GROOVY -->
+
+    <script src="node_modules/codemirror/mode/haml/haml.js"></script>                       <!-- HAML -->
+    <script src="node_modules/codemirror/mode/handlebars/handlebars.js"></script>           <!-- HANDLEBARS -->
+    <script src="node_modules/codemirror/mode/haskell/haskell.js"></script>                 <!-- HASKELL -->
+    <script src="node_modules/codemirror/mode/haxe/haxe.js"></script>                       <!-- HAXE -->
+    <script src="node_modules/codemirror/mode/htmlembedded/htmlembedded.js"></script>       <!-- HTML EMBEDDED -->
+    <script src="node_modules/codemirror/mode/htmlmixed/htmlmixed.js"></script>             <!-- HTML MIXED -->
+    <script src="node_modules/codemirror/mode/http/http.js"></script>                       <!-- HTTP -->
+
+    <script src="node_modules/codemirror/mode/idl/idl.js"></script>                         <!-- IDL -->
+    <script src="node_modules/codemirror/mode/jade/jade.js"></script>                       <!-- JADE -->
+    <script src="node_modules/codemirror/mode/javascript/javascript.js"></script>           <!-- JAVASCRIPT -->
+    <script src="node_modules/codemirror/mode/jinja2/jinja2.js"></script>                   <!-- JINJA2 -->
+    <script src="node_modules/codemirror/mode/julia/julia.js"></script>                     <!-- JULIA -->
+
+    <script src="node_modules/codemirror/mode/livescript/livescript.js"></script>           <!-- LIVESCRIPT -->
+    <script src="node_modules/codemirror/mode/lua/lua.js"></script>                         <!-- LUA -->
+
+    <script src="node_modules/codemirror/mode/markdown/markdown.js"></script>               <!-- MARKDOWN -->
+    <script src="node_modules/codemirror/mode/mathematica/mathematica.js"></script>         <!-- MATHEMATICA -->
+    <script src="node_modules/codemirror/mode/mirc/mirc.js"></script>                       <!-- MIRC -->
+    <script src="node_modules/codemirror/mode/mllike/mllike.js"></script>                   <!-- MLLIKE -->
+    <script src="node_modules/codemirror/mode/modelica/modelica.js"></script>               <!-- MODELICA -->
+    <script src="node_modules/codemirror/mode/mscgen/mscgen.js"></script>                   <!-- MSCGEN -->
+    <script src="node_modules/codemirror/mode/mumps/mumps.js"></script>                     <!-- MUMPS -->
+    <script src="node_modules/codemirror/mode/meta.js"></script>                            <!-- META -->
+
+    <script src="node_modules/codemirror/mode/tcl/tcl.js"></script>                         <!-- TCL -->
+    <script src="node_modules/codemirror/mode/textile/textile.js"></script>                 <!-- TEXTILE -->
+    <script src="node_modules/codemirror/mode/tiddlywiki/tiddlywiki.js"></script>           <!-- TIDDLYWIKI -->
+    <link rel="stylesheet" href="node_modules/codemirror/mode/tiddlywiki/tiddlywiki.css">   <!-- TIDDLYWIKI -->
+    <script src="node_modules/codemirror/mode/tiki/tiki.js"></script>                       <!-- TIKI -->
+    <link rel="stylesheet" href="node_modules/codemirror/mode/tiki/tiki.css">               <!-- TIKI -->
+    <script src="node_modules/codemirror/mode/toml/toml.js"></script>                       <!-- TOML -->
+    <script src="node_modules/codemirror/mode/tornado/tornado.js"></script>                 <!-- TORANADO -->
+    <script src="node_modules/codemirror/mode/troff/troff.js"></script>                     <!-- TROFF -->
+    <script src="node_modules/codemirror/mode/ttcn-cfg/ttcn-cfg.js"></script>               <!-- TTCN-CFG -->
+    <script src="node_modules/codemirror/mode/ttcn/ttcn.js"></script>                       <!-- TTCN -->
+    <script src="node_modules/codemirror/mode/turtle/turtle.js"></script>                   <!-- TURTLE -->
+    <script src="node_modules/codemirror/mode/twig/twig.js"></script>                       <!-- TWIG -->
+
+    <script src="node_modules/codemirror/mode/shell/shell.js"></script>                     <!-- SHELL -->
+
+    <script src="node_modules/codemirror/mode/xquery/xquery.js"></script>                   <!-- XQUERY -->
+    <script src="node_modules/codemirror/mode/xml/xml.js"></script>                         <!-- XML/HTML -->
+    <script src="node_modules/codemirror/mode/python/python.js"></script>                   <!-- PYTHON -->
+
+    <!--
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    -->
+
+    <!-- GLSL Canvas -->
+    <script src="src/GlslCanvas.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/index.css">
+
+    <!--  Code Reactor Index  -->
+    <script src="src/Code%20Reactor.js"></script>
+
+    <!-- Editor -->
+    <script src="src/Editor.js"></script>
+
+    <!-- File -->
+    <script src="src/File.js"></script>
+
+    <!-- Directory -->
+    <script src="src/Directory.js"></script>
+
+    <!-- Log -->
+    <script src="src/Log.js"></script>
+
+    <!-- Git -->
+    <script src="src/git.js"></script>
+
+    <!-- Tools -->
+    <script src="src/tools.js"></script>
+
+    <!-- MD5 hash generator -->
+    <script src="src/MD5hash.js"></script>
+</head>
+
+<body>
+    <div id="tilebar">
+        <img id="icon" src="icon.png">
+        <img src="icons/tilebar/close.png" id="terminate" onmouseover="this.src = 'icons/tilebar/close_hover.png'" onmouseout="this.src = 'icons/tilebar/close.png'" onclick="Code_Reactor.terminate()">
+        <img src="icons/tilebar/fullscreen.png" id="toggleFullscreen" onmouseover="this.src = 'icons/tilebar/fullscreen_hover.png'" onmouseout="this.src = 'icons/tilebar/fullscreen.png'" onclick="Code_Reactor.toggleFullscreen()">
+        <img src="icons/tilebar/minimize.png" id="minimize" onmouseover="this.src = 'icons/tilebar/minimize_hover.png'" onmouseout="this.src = 'icons/tilebar/minimize.png'" onclick="Code_Reactor.minimize()">
+    </div>
+
+    <div id="sidebar">
+        <div id="sidebar-wrapper">
+            <ul id="workplace">
+                <li id="title">
+
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="code-wrapper">
+        <textarea id="code"></textarea>
+    </div>
+
+    <div class="dropdown" id="navigationBar">
+        <div id="FileBtn">
+            <button class="navButton dropdown-toggle" type="button" data-toggle="dropdown">File</button>
+            <ul class="dropdown-menu">
+                <li><a href="#" onclick="Code_Reactor.newFile()">New (Ctrl+N)</a></li>
+                <li><a href="#" onclick="Code_Reactor.openFile()">Open (Ctrl+O)</a></li>
+                <li><a href="#" onclick="Code_Reactor.openFolder()">Open Folder (Ctrl+Shift+O)</a></li>
+                <li><a href="#" onclick="Code_Reactor.close(Code_Reactor.editor[0].file)">Close (Ctrl+W)</a></li>
+                <li><a href="#" onclick="Code_Reactor.closeAll()">Close All(Ctrl+Shift+W)</a></li>
+                <li class="divider"></li>
+                <li><a href="#" onclick="Code_Reactor.saveFile(false)">Save (Ctrl+S)</a></li>
+                <li><a href="#" onclick="Code_Reactor.saveFile(true)">Save As (Ctrl+Shift+S)</a></li>
+            </ul>
+        </div>
+
+        <div id="GitBtn">
+            <button class="navButton dropdown-toggle" type="button" data-toggle="dropdown">Git</button>
+            <ul class="dropdown-menu">
+                <li><a href="#" onclick="Code_Reactor.Git.init()">Init      </a></li>
+                <li><a href="#" onclick="Code_Reactor.Git.commit()">Commit  </a></li>
+                <li><a href="#" onclick="Code_Reactor.Git.pull()">Pull      </a></li>
+                <li><a href="#" onclick="Code_Reactor.Git.push()">Push      </a></li>
+                <li><a href="#" onclick="Code_Reactor.Git.clone()">Clone    </a></li>
+                <li><a href="#" onclick="Code_Reactor.Git.add()">Add        </a></li>
+                <li><a href="#" onclick="Code_Reactor.Git.addAll()">Add All </a></li>
+                <li><a href="#" onclick="Code_Reactor.Git.reset()">Reset        </a></li>
+                <li><a href="#" onclick="Code_Reactor.Git.resetAll()">Reset All </a></li>
+            </ul>
+        </div>
+
+        <div id="ExtensionsBtn">
+            <button class="navButton dropdown-toggle disabled" type="button" data-toggle="dropdown">Extensions</button>
+            <ul class="dropdown-menu">
+                <li><a href="#" onclick="Code_Reactor.Git.init()">beautifier (Ctrl+Shift+L)</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="footer">
+        <div id="L_C_posX_posY">
+            Line 0,Column 0 <font color="#888888">- 0 Lines</font>
+        </div>
+        <div id="mode">
+            Text
+        </div>
+    </div>
+
+    <input style="display:none;" id="fileDialog" type="file" />
+    <input style="display:none;" id="fileDialog2" type="file" nwsaveas/>
+    <input style="display:none;" id="dirDialog" type="file" nwdirectory />
+
+
+</body>
+
+</html>
