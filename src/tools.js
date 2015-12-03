@@ -74,13 +74,17 @@ window.requestAnimFrame = (function () {
         };
 })();
 
-function makeid(x) {
+function makeid(x, name) {
     if (x === undefined) {
         x = 5;
     }
-    
+
     var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`~!@#$%^&*({<[]}>)";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    if (name === undefined || name === false) {
+        possible += "`~!@#$%^&*({<[]}>)";
+    }
 
     for (var i = 0; i < x; i++)
         text += possible.charAt(Math.floor(Math.random() * possible.length));

@@ -21,7 +21,7 @@ var Code_Reactor = {
     shell: require('shelljs'),
 
     projectName: "unnamed",
-    
+
     dirSeperator: null,
 
     /**
@@ -147,7 +147,7 @@ var Code_Reactor = {
      * @method Code_Reactor.newFile
      */
     newFile: function () {
-        this.file.push(new Code_Reactor.File(Code_Reactor.appRoot + this.dirSeperator + makeid(), 0));
+        this.file.push(new Code_Reactor.File(Code_Reactor.appRoot + this.dirSeperator + makeid(undefined, true), 0));
         this.file[this.file.length - 1].new();
     },
 
