@@ -1,3 +1,5 @@
+@import url("shapes.css");
+
 html,
 body {
     width: 100%;
@@ -152,7 +154,6 @@ ul li span:hover {
     left: 250px;
     top: 52px;
 }
-
 
 /*#272822 Monokais theme background color*/
 

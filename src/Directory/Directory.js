@@ -61,8 +61,6 @@ Code_Reactor.Directory.prototype = {
 
     toggle: function () {
 
-        this.toggled = !this.toggled;
-
         var x = '#ofolder' + this.instance.toString();
 
         if (this.files === null) {
@@ -85,7 +83,6 @@ Code_Reactor.Directory.prototype = {
 
                 }
 
-
             }
             inject += '</ul></li>';
 
@@ -96,9 +93,11 @@ Code_Reactor.Directory.prototype = {
                 dir.init();
                 Code_Reactor.directory.push(dir);
             }
-
         }
 
+        var zz = document.getElementsByName('dir' + this.instance)[0];
+        this.toggled = !this.toggled;
+        zz.id = this.getIcon();
         $(x + ' > li span').parent().find('ul').toggle();
     },
 
@@ -113,17 +112,25 @@ Code_Reactor.Directory.prototype = {
     },
 
     appendFolderToWorkplace: function (path) {
-        var foldername = this.updateFoldername();
+        var foldername = '&ensp;' + this.updateFoldername();
 
         if (this._space > 2) {
             for (var i = 0; i < this._space - 2; i++) {
                 foldername = '&ensp;' + foldername;
             }
         }
+        foldername = '<div name="dir' + this.instance + '" id="' + this.getIcon() + '"></div>' + foldername;
         this.foldername = foldername;
         document.getElementById(this.parent).innerHTML += '<ul id="' + this.id + '"><li><span onclick="Code_Reactor.directory[' + this.instance + '].toggle()">' + foldername + '</span></li></ul>';
-
         this.toAppend = false;
+    },
+
+    getIcon: function () {
+        if (this.toggled) {
+            return 'triangle-down';
+        } else {
+            return 'triangle-right';
+        }
     }
 
 };

@@ -287,6 +287,41 @@ Code_Reactor.File.prototype = {
             this.mode = "text/x-cmake";
             document.getElementById('mode').innerHTML = 'CMake';
         }
+        // Rust
+        else if (this.filepath.slice(-3) === ".rs" || this.filepath.slice(-5) === ".rlib") {
+            this.mode = "text/x-rustsrc";
+            document.getElementById('mode').innerHTML = 'Rust';
+        }
+        // OCaml
+        else if (this.filepath.slice(-3) === ".ml" || this.filepath.slice(-4) === ".mli") {
+            this.mode = "text/x-ocaml";
+            document.getElementById('mode').innerHTML = 'OCaml';
+        }
+        // F#
+        else if (this.filepath.slice(-3) === ".fs") {
+            this.mode = "text/x-fsharp";
+            document.getElementById('mode').innerHTML = 'F#';
+        }
+        // Fortran
+        else if (this.filepath.slice(-2) === ".f" || this.filepath.slice(-4) === ".for" || this.filepath.slice(-4) === ".f90" || this.filepath.slice(-4) === ".f95") {
+            this.mode = "text/x-Fortran";
+            document.getElementById('mode').innerHTML = 'Fortran';
+        }
+        // PHP
+        else if (this.filepath.slice(-4) === ".php") {
+            this.mode = "text/x-php";
+            document.getElementById('mode').innerHTML = 'PHP';
+        }
+        // Swift
+        else if (this.filepath.slice(-6) === ".swift") {
+            this.mode = "text/x-swift";
+            document.getElementById('mode').innerHTML = 'Swift';
+        }
+        // YAML
+        else if (this.filepath.slice(-4) === ".yml" || this.filepath.slice(-5) === ".yaml") {
+            this.mode = "text/x-yaml";
+            document.getElementById('mode').innerHTML = 'YAML';
+        }
         // Plain Text
         else {
             document.getElementById('mode').innerHTML = 'Plain Text';
