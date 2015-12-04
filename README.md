@@ -7,12 +7,16 @@
 Home grown code editor.
 ___
 
+### Quick start
+1. `npm install -g nw`
+2. `npm start`
+
 ### How to build
 1. `npm install -g grunt-cli`
 2. `npm install`
 3. `grunt`
 
-### Screenshots
-![pacman](http://i.imgur.com/xsHhtQV.png)
-![Julia Sets](http://i.imgur.com/bQA8XPG.png)
-![JavaScript](http://i.imgur.com/rMnvGCD.png)
+<!--### Screenshots-->
+<!--![pacman](http://i.imgur.com/xsHhtQV.png)-->
+<!--![Julia Sets](http://i.imgur.com/bQA8XPG.png)-->
+<!--![JavaScript](http://i.imgur.com/rMnvGCD.png)-->

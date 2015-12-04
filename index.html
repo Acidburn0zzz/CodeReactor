@@ -12,6 +12,98 @@
 
     <title>Code Reactor</title>
 
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap-theme.min.css">
+
+    <!-- CodeMirror -->
+    <link rel="stylesheet" href="node_modules/codemirror/lib/codemirror.css">
+
+    <!--  CodeMirror Theme/s  -->
+    <link rel="stylesheet" href="node_modules/codemirror/theme/monokai.css">
+    <link rel="stylesheet" href="src/theme/glsl.css">
+
+    <!-- Codemirror mode(s) -->
+    <link rel="stylesheet" href="node_modules/codemirror/mode/tiddlywiki/tiddlywiki.css">   <!-- TIDDLYWIKI -->
+    <link rel="stylesheet" href="node_modules/codemirror/mode/tiki/tiki.css">               <!-- TIKI -->
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <div id="tilebar">
+        <img id="icon" src="icon.png">
+        <img src="icons/tilebar/close.png" id="terminate" onmouseover="this.src = 'icons/tilebar/close_hover.png'" onmouseout="this.src = 'icons/tilebar/close.png'" onclick="Code_Reactor.terminate()">
+        <img src="icons/tilebar/fullscreen.png" id="toggleFullscreen" onmouseover="this.src = 'icons/tilebar/fullscreen_hover.png'" onmouseout="this.src = 'icons/tilebar/fullscreen.png'" onclick="Code_Reactor.toggleFullscreen()">
+        <img src="icons/tilebar/minimize.png" id="minimize" onmouseover="this.src = 'icons/tilebar/minimize_hover.png'" onmouseout="this.src = 'icons/tilebar/minimize.png'" onclick="Code_Reactor.minimize()">
+    </div>
+
+    <div id="sidebar">
+        <div id="sidebar-wrapper">
+            <ul id="workplace">
+                <li id="title">
+
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="code-wrapper">
+        <textarea id="code"></textarea>
+    </div>
+
+    <div class="dropdown" id="navigationBar">
+        <div id="FileBtn">
+            <button class="navButton dropdown-toggle" type="button" data-toggle="dropdown">File</button>
+            <ul class="dropdown-menu">
+                <li><a href="#" onclick="Code_Reactor.newFile()">New (Ctrl+N)</a></li>
+                <li><a href="#" onclick="Code_Reactor.openFile()">Open (Ctrl+O)</a></li>
+                <li><a href="#" onclick="Code_Reactor.openFolder()">Open Folder (Ctrl+Shift+O)</a></li>
+                <li><a href="#" onclick="Code_Reactor.close(Code_Reactor.editor[0].file)">Close (Ctrl+W)</a></li>
+                <li><a href="#" onclick="Code_Reactor.closeAll()">Close All(Ctrl+Shift+W)</a></li>
+                <li class="divider"></li>
+                <li><a href="#" onclick="Code_Reactor.saveFile(false)">Save (Ctrl+S)</a></li>
+                <li><a href="#" onclick="Code_Reactor.saveFile(true)">Save As (Ctrl+Shift+S)</a></li>
+            </ul>
+        </div>
+
+        <div id="GitBtn">
+            <button class="navButton dropdown-toggle" type="button" data-toggle="dropdown">Git</button>
+            <ul class="dropdown-menu">
+                <li><a href="#" onclick="Code_Reactor.Git.init()">Init      </a></li>
+                <li><a href="#" onclick="Code_Reactor.Git.commit()">Commit  </a></li>
+                <li><a href="#" onclick="Code_Reactor.Git.pull()">Pull      </a></li>
+                <li><a href="#" onclick="Code_Reactor.Git.push()">Push      </a></li>
+                <li><a href="#" onclick="Code_Reactor.Git.clone()">Clone    </a></li>
+                <li><a href="#" onclick="Code_Reactor.Git.add()">Add        </a></li>
+                <li><a href="#" onclick="Code_Reactor.Git.addAll()">Add All </a></li>
+                <li><a href="#" onclick="Code_Reactor.Git.reset()">Reset        </a></li>
+                <li><a href="#" onclick="Code_Reactor.Git.resetAll()">Reset All </a></li>
+            </ul>
+        </div>
+
+        <div id="ExtensionsBtn">
+            <button class="navButton dropdown-toggle disabled" type="button" data-toggle="dropdown">Extensions</button>
+            <ul class="dropdown-menu">
+                <li><a href="#" onclick="Code_Reactor.Git.init()">beautifier (Ctrl+Shift+L)</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="footer">
+        <div id="L_C_posX_posY">
+            Line 0,Column 0 <font color="#888888">- 0 Lines</font>
+        </div>
+        <div id="mode">
+            Text
+        </div>
+    </div>
+
+    <input style="display:none;" id="fileDialog" type="file" />
+    <input style="display:none;" id="fileDialog2" type="file" nwsaveas/>
+    <input style="display:none;" id="dirDialog" type="file" nwdirectory />
+
     <!-- JQuery -->
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
 
@@ -20,16 +112,9 @@
 
     <!-- Bootstrap -->
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap-theme.min.css">
 
     <!-- CodeMirror -->
     <script src="node_modules/codemirror/lib/codemirror.js"></script>
-    <link rel="stylesheet" href="node_modules/codemirror/lib/codemirror.css">
-
-    <!--  CodeMirror Theme/s  -->
-    <link rel="stylesheet" href="node_modules/codemirror/theme/monokai.css">
-    <link rel="stylesheet" href="src/theme/glsl.css">
 
     <!--/////////////////////-->
     <!--  CodeMirror Keymaps -->
@@ -131,9 +216,7 @@
     <script src="node_modules/codemirror/mode/tcl/tcl.js"></script>                         <!-- TCL -->
     <script src="node_modules/codemirror/mode/textile/textile.js"></script>                 <!-- TEXTILE -->
     <script src="node_modules/codemirror/mode/tiddlywiki/tiddlywiki.js"></script>           <!-- TIDDLYWIKI -->
-    <link rel="stylesheet" href="node_modules/codemirror/mode/tiddlywiki/tiddlywiki.css">   <!-- TIDDLYWIKI -->
     <script src="node_modules/codemirror/mode/tiki/tiki.js"></script>                       <!-- TIKI -->
-    <link rel="stylesheet" href="node_modules/codemirror/mode/tiki/tiki.css">               <!-- TIKI -->
     <script src="node_modules/codemirror/mode/toml/toml.js"></script>                       <!-- TOML -->
     <script src="node_modules/codemirror/mode/tornado/tornado.js"></script>                 <!-- TORANADO -->
     <script src="node_modules/codemirror/mode/troff/troff.js"></script>                     <!-- TROFF -->
@@ -142,10 +225,32 @@
     <script src="node_modules/codemirror/mode/turtle/turtle.js"></script>                   <!-- TURTLE -->
     <script src="node_modules/codemirror/mode/twig/twig.js"></script>                       <!-- TWIG -->
 
+    <script src="node_modules/codemirror/mode/sass/sass.js"></script>                       <!-- SASS -->
+    <script src="node_modules/codemirror/mode/scheme/scheme.js"></script>                   <!-- SCHEME -->
     <script src="node_modules/codemirror/mode/shell/shell.js"></script>                     <!-- SHELL -->
+    <script src="node_modules/codemirror/mode/sieve/sieve.js"></script>                     <!-- SIEVE -->
+    <script src="node_modules/codemirror/mode/slim/slim.js"></script>                       <!-- SLIM -->
+    <script src="node_modules/codemirror/mode/smalltalk/smalltalk.js"></script>             <!-- SMALLTALK -->
+    <script src="node_modules/codemirror/mode/smarty/smarty.js"></script>                   <!-- SMARTY -->
+    <script src="node_modules/codemirror/mode/solr/solr.js"></script>                       <!-- SOLR -->
+    <script src="node_modules/codemirror/mode/soy/soy.js"></script>                         <!-- SOY -->
+    <script src="node_modules/codemirror/mode/sparql/sparql.js"></script>                   <!-- SPARQL -->
+    <script src="node_modules/codemirror/mode/spreadsheet/spreadsheet.js"></script>         <!-- SPREADSHEET -->
+    <script src="node_modules/codemirror/mode/sql/sql.js"></script>                         <!-- SQL -->
+    <script src="node_modules/codemirror/mode/stex/stex.js"></script>                       <!-- STEX -->
+    <script src="node_modules/codemirror/mode/stylus/stylus.js"></script>                   <!-- STYLUS -->
+    <script src="node_modules/codemirror/mode/swift/swift.js"></script>                     <!-- SWIFT -->
 
-    <script src="node_modules/codemirror/mode/xquery/xquery.js"></script>                   <!-- XQUERY -->
     <script src="node_modules/codemirror/mode/xml/xml.js"></script>                         <!-- XML/HTML -->
+    <script src="node_modules/codemirror/mode/xquery/xquery.js"></script>                   <!-- XQUERY -->
+
+    <script src="node_modules/codemirror/mode/pascal/pascal.js"></script>                   <!-- PASCAL -->
+    <script src="node_modules/codemirror/mode/pegjs/pegjs.js"></script>                     <!-- PEGJS -->
+    <script src="node_modules/codemirror/mode/perl/perl.js"></script>                       <!-- PERL -->
+    <script src="node_modules/codemirror/mode/php/php.js"></script>                         <!-- PHP -->
+    <script src="node_modules/codemirror/mode/pig/pig.js"></script>                         <!-- PIG -->
+    <script src="node_modules/codemirror/mode/properties/properties.js"></script>           <!-- PROPERTIES -->
+    <script src="node_modules/codemirror/mode/puppet/puppet.js"></script>                   <!-- PUPPET -->
     <script src="node_modules/codemirror/mode/python/python.js"></script>                   <!-- PYTHON -->
 
     <!--
@@ -154,109 +259,27 @@
     -->
 
     <!-- GLSL Canvas -->
-    <script src="src/GlslCanvas.min.js"></script>
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/index.css">
+    <script src="src/GlslCanvas/GlslCanvas.min.js"></script>
 
     <!--  Code Reactor Index  -->
     <script src="src/Code%20Reactor.js"></script>
 
     <!-- Editor -->
-    <script src="src/Editor.js"></script>
+    <script src="src/Editor/Editor.js"></script>
 
     <!-- File -->
-    <script src="src/File.js"></script>
+    <script src="src/File/File.js"></script>
 
     <!-- Directory -->
-    <script src="src/Directory.js"></script>
+    <script src="src/Directory/Directory.js"></script>
 
     <!-- Log -->
-    <script src="src/Log.js"></script>
-
-    <!-- Git -->
-    <script src="src/git.js"></script>
+    <script src="src/Log/Log.js"></script>
 
     <!-- Tools -->
-    <script src="src/tools.js"></script>
-
-    <!-- MD5 hash generator -->
-    <script src="src/MD5hash.js"></script>
-</head>
-
-<body>
-    <div id="tilebar">
-        <img id="icon" src="icon.png">
-        <img src="icons/tilebar/close.png" id="terminate" onmouseover="this.src = 'icons/tilebar/close_hover.png'" onmouseout="this.src = 'icons/tilebar/close.png'" onclick="Code_Reactor.terminate()">
-        <img src="icons/tilebar/fullscreen.png" id="toggleFullscreen" onmouseover="this.src = 'icons/tilebar/fullscreen_hover.png'" onmouseout="this.src = 'icons/tilebar/fullscreen.png'" onclick="Code_Reactor.toggleFullscreen()">
-        <img src="icons/tilebar/minimize.png" id="minimize" onmouseover="this.src = 'icons/tilebar/minimize_hover.png'" onmouseout="this.src = 'icons/tilebar/minimize.png'" onclick="Code_Reactor.minimize()">
-    </div>
-
-    <div id="sidebar">
-        <div id="sidebar-wrapper">
-            <ul id="workplace">
-                <li id="title">
-
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    <div id="code-wrapper">
-        <textarea id="code"></textarea>
-    </div>
-
-    <div class="dropdown" id="navigationBar">
-        <div id="FileBtn">
-            <button class="navButton dropdown-toggle" type="button" data-toggle="dropdown">File</button>
-            <ul class="dropdown-menu">
-                <li><a href="#" onclick="Code_Reactor.newFile()">New (Ctrl+N)</a></li>
-                <li><a href="#" onclick="Code_Reactor.openFile()">Open (Ctrl+O)</a></li>
-                <li><a href="#" onclick="Code_Reactor.openFolder()">Open Folder (Ctrl+Shift+O)</a></li>
-                <li><a href="#" onclick="Code_Reactor.close(Code_Reactor.editor[0].file)">Close (Ctrl+W)</a></li>
-                <li><a href="#" onclick="Code_Reactor.closeAll()">Close All(Ctrl+Shift+W)</a></li>
-                <li class="divider"></li>
-                <li><a href="#" onclick="Code_Reactor.saveFile(false)">Save (Ctrl+S)</a></li>
-                <li><a href="#" onclick="Code_Reactor.saveFile(true)">Save As (Ctrl+Shift+S)</a></li>
-            </ul>
-        </div>
-
-        <div id="GitBtn">
-            <button class="navButton dropdown-toggle" type="button" data-toggle="dropdown">Git</button>
-            <ul class="dropdown-menu">
-                <li><a href="#" onclick="Code_Reactor.Git.init()">Init      </a></li>
-                <li><a href="#" onclick="Code_Reactor.Git.commit()">Commit  </a></li>
-                <li><a href="#" onclick="Code_Reactor.Git.pull()">Pull      </a></li>
-                <li><a href="#" onclick="Code_Reactor.Git.push()">Push      </a></li>
-                <li><a href="#" onclick="Code_Reactor.Git.clone()">Clone    </a></li>
-                <li><a href="#" onclick="Code_Reactor.Git.add()">Add        </a></li>
-                <li><a href="#" onclick="Code_Reactor.Git.addAll()">Add All </a></li>
-                <li><a href="#" onclick="Code_Reactor.Git.reset()">Reset        </a></li>
-                <li><a href="#" onclick="Code_Reactor.Git.resetAll()">Reset All </a></li>
-            </ul>
-        </div>
-
-        <div id="ExtensionsBtn">
-            <button class="navButton dropdown-toggle disabled" type="button" data-toggle="dropdown">Extensions</button>
-            <ul class="dropdown-menu">
-                <li><a href="#" onclick="Code_Reactor.Git.init()">beautifier (Ctrl+Shift+L)</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <div id="footer">
-        <div id="L_C_posX_posY">
-            Line 0,Column 0 <font color="#888888">- 0 Lines</font>
-        </div>
-        <div id="mode">
-            Text
-        </div>
-    </div>
-
-    <input style="display:none;" id="fileDialog" type="file" />
-    <input style="display:none;" id="fileDialog2" type="file" nwsaveas/>
-    <input style="display:none;" id="dirDialog" type="file" nwdirectory />
-
+    <script src="src/Tools/tools.js"></script>
+    <script src="src/Tools/git.js"></script>        <!-- Git -->
+    <script src="src/Tools/MD5hash.js"></script>    <!-- MD5 hash generator -->
 
 </body>
 

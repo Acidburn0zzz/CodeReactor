@@ -211,7 +211,7 @@ Code_Reactor.File.prototype = {
             document.getElementById('mode').innerHTML = 'HTML';
         }
         // JavaScript
-        else if (this.filepath.slice(-3) === ".js") {
+        else if (this.filepath.slice(-3) === ".js" || this.filepath.slice(-5) === ".json") {
             this.mode = "text/javascript";
             document.getElementById('mode').innerHTML = 'Javascript';
         }
@@ -271,6 +271,21 @@ Code_Reactor.File.prototype = {
         else if (this.filepath.slice(-3) === ".md") {
             this.mode = "text/x-markdown";
             document.getElementById('mode').innerHTML = 'Markdown';
+        }
+        // Perl
+        else if (this.filepath.slice(-3) === ".pl" || this.filepath.slice(-3) === ".pm" || this.filepath.slice(-4) === ".plx") {
+            this.mode = "text/x-perl";
+            document.getElementById('mode').innerHTML = 'Perl';
+        }
+        // XML
+        else if (this.filepath.slice(-4) === ".xml") {
+            this.mode = "application/xml";
+            document.getElementById('mode').innerHTML = 'XML';
+        }
+        // CMake
+        else if (this.filepath.slice(10) === "CMakeLists") {
+            this.mode = "text/x-cmake";
+            document.getElementById('mode').innerHTML = 'CMake';
         }
         // Plain Text
         else {
