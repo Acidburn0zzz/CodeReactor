@@ -47,9 +47,9 @@
 	height: 0;
     display: inline-block;
     /*padding-right: 5px;*/
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;
-	border-top: 10px solid #b1b1b1;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-top: 8px solid #b1b1b1;
 }
 /* Triangle left */
 #triangle-left {
@@ -65,9 +65,9 @@
 	height: 0;
     display: inline-block;
     /*padding-right: 5px;*/
-	border-top: 5px solid transparent;
-	border-left: 10px solid #b1b1b1;
-	border-bottom: 5px solid transparent;
+	border-top: 4px solid transparent;
+	border-left: 8px solid #b1b1b1;
+	border-bottom: 4px solid transparent;
 }
 /* Triangle top-left */
 #triangle-topleft {

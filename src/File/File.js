@@ -355,9 +355,11 @@ Code_Reactor.File.prototype = {
     },
 
     render: function () {
-        this.detectMode();
-        Code_Reactor.editor[this.viewport].file = this.instance;
-        Code_Reactor.editor[this.viewport].loadContent(this.content);
+        if (Code_Reactor.editor[this.viewport].file !== this.instance) {
+            this.detectMode();
+            Code_Reactor.editor[this.viewport].file = this.instance;
+            Code_Reactor.editor[this.viewport].loadContent(this.content);
+        }
     }
 
 };

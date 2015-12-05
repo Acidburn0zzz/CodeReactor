@@ -335,8 +335,6 @@ var Code_Reactor = {
             var stat = filesystem.statSync(file);
 
             if (stat && stat.isDirectory()) {
-                //results = results.concat(Code_Reactor._getAllFilesFromFolder(file));
-                //Code_Reactor.openDir(file);
                 results.push({
                     dir: file
                 });

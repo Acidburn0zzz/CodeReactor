@@ -44,7 +44,7 @@ Code_Reactor.Directory = function (filepath, parent, space) {
         this._space = space;
 
         for (var i = 0; i < space; i++) {
-            this.space += '&ensp;';
+            this.space += '&nbsp;';
         }
     } else {
         console.error("Forgot to pass 'space' parameter!");
@@ -75,7 +75,7 @@ Code_Reactor.Directory.prototype = {
                 if (this.files[i].file !== undefined) {
                     this.files[i] = Code_Reactor.openFile(this.files[i].file, false);
                     this.files[i].updateFilename(true);
-                    inject += '<li><a href="#" onclick="Code_Reactor.file[' + this.files[i].instance + '].render()">' + this.space + this.files[i].filename + '</a></li>';
+                    inject += '<li><a href="#" onclick="Code_Reactor.file[' + this.files[i].instance + '].render()">&nbsp;&nbsp;&nbsp;' + this.space + this.files[i].filename + '</a></li>';
                 }
                 // if directory
                 else if (this.files[i].dir !== undefined) {
@@ -112,14 +112,14 @@ Code_Reactor.Directory.prototype = {
     },
 
     appendFolderToWorkplace: function (path) {
-        var foldername = '&ensp;' + this.updateFoldername();
-
+        var foldername = this.updateFoldername();
+        var iconPadding_left = '';
         if (this._space > 2) {
             for (var i = 0; i < this._space - 2; i++) {
-                foldername = '&ensp;' + foldername;
+                iconPadding_left += '&nbsp;';
             }
         }
-        foldername = '<div name="dir' + this.instance + '" id="' + this.getIcon() + '"></div>' + foldername;
+        foldername = iconPadding_left + '<div name="dir' + this.instance + '" id="' + this.getIcon() + '"></div>&nbsp;' + foldername;
         this.foldername = foldername;
         document.getElementById(this.parent).innerHTML += '<ul id="' + this.id + '"><li><span onclick="Code_Reactor.directory[' + this.instance + '].toggle()">' + foldername + '</span></li></ul>';
         this.toAppend = false;
