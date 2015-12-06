@@ -193,13 +193,14 @@ var Code_Reactor = {
 
         switch (this.os.platform()) {
             case 'win32':
-                exec('start cmd /K "cd '+Code_Reactor.projectPath+'"', function callback(error, stdout, stderr) {
+                exec('start cmd /K "cd ' + Code_Reactor.projectPath + '"', function callback(error, stdout, stderr) {
                     // result
                 });
                 break;
             case 'linux':
-                this.dirSeperator = "/";
-                $("#dirDialog").attr("nwworkingdir", "/");
+                exec('uxterm -c "cd ' + Code_Reactor.projectPath + '" &', function callback(error, stdout, stderr) {
+                    // result
+                });
                 break;
             case 'freebsd':
                 //@ToDO
