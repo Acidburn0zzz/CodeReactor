@@ -1,5 +1,25 @@
 @import url("shapes.css");
 
+@font-face {
+    font-family: typewcond_bold;
+    src: url("../fonts/typewcond/typewcond_bold.otf");
+}
+
+@font-face {
+    font-family: typewcond_demi;
+    src: url("../fonts/typewcond/typewcond_typewcond_demi.otf");
+}
+
+@font-face {
+    font-family: typewcond_regular;
+    src: url("../fonts/typewcond/typewcond_regular.otf");
+}
+
+@font-face {
+    font-family: modern_typewriter;
+    src: url("../fonts/MODERN%20TYPEWRITER/MODERN%20TYPEWRITER.ttf");
+}
+
 html,
 body {
     width: 100%;
@@ -123,6 +143,14 @@ ul li span:hover {
     position: absolute;
     color: #FFF;
     right: 10px;
+    top: 2px;
+    font-size: 12px;
+}
+
+#footer #font-size{
+    position: absolute;
+    color: #FFF;
+    right: 80px;
     top: 2px;
     font-size: 12px;
 }

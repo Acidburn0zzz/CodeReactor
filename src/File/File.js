@@ -7,8 +7,8 @@
  *
  * @class Code_Reactor.File
  * @constructor
- * @param {string} - filepath (*optional)
- * @param {number} - viewport to render the file on (*required)
+ * @param {string} filepath - File's global filepath (*optional)
+ * @param {number} viewport - viewport to render the file on (*required)
  */
 Code_Reactor.File = function (filepath, viewport) {
 

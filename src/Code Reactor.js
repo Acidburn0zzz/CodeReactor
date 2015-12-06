@@ -24,6 +24,24 @@ var Code_Reactor = {
 
     dirSeperator: null,
 
+    CodeMirrorOptions: {
+        tabSize: 4,
+        indentWithTabs: false,
+        theme: "monokai",
+        indentUnit: 2,
+        smartIndent: true,
+        keyMap: "sublime",
+        styleActiveLine: true,
+        autoCloseBrackets: true,
+        matchBrackets: true,
+        lineNumbers: true,
+        lineWrapping: true
+    },
+
+    fontSize: 16,
+
+    font_family: "typewcond_regular",
+
     /**
      * Initialize Code Reactor
      * @method Code_Reactor.init
@@ -50,6 +68,28 @@ var Code_Reactor = {
         }
 
         ////////////////////////////////////////////
+        // CONFIGURATION
+        ////////////////////////////////////////////
+        var configPath = this.gui.App.dataPath + this.dirSeperator + "config.json";
+        try {
+            var stats = Code_Reactor.fs.lstatSync(configPath);
+
+            if (!Code_Reactor.isBinaryFile.sync(configPath) && stats.isFile()) {
+                var cc = Code_Reactor.jsonfile.readFileSync(configPath);
+
+                Code_Reactor.CodeMirrorOptions = cc.CodeMirrorOptions;
+                Code_Reactor.fontSize = cc.fontSize;
+                Code_Reactor.font_family = cc.font_family;
+            }
+        } catch (e) {
+            Code_Reactor.jsonfile.writeFileSync(configPath, {
+                CodeMirrorOptions: Code_Reactor.CodeMirrorOptions,
+                fontSize: Code_Reactor.fontSize,
+                font_family: Code_Reactor.font_family
+            });
+        }
+
+        ////////////////////////////////////////////
         // CODE REACTOR LOG FILE(S)
         ////////////////////////////////////////////
         Code_Reactor.log.push(new Code_Reactor.Log("Activity", Code_Reactor.appRoot + "\\log\\activity.log", 1024));
@@ -58,19 +98,15 @@ var Code_Reactor = {
         ////////////////////////////////////////////
         // CODE REACTOR EDITOR #0
         ////////////////////////////////////////////
-        Code_Reactor.editor.push(new Code_Reactor.Editor(window.innerWidth - 250, window.innerHeight - 72, 'code', {
-            theme: "monokai",
-            keyMap: "sublime",
-            styleActiveLine: true,
-            autoCloseBrackets: true,
-            matchBrackets: true,
-            lineNumbers: true,
-            lineWrapping: true
-        }));
+        Code_Reactor.editor.push(new Code_Reactor.Editor(window.innerWidth - 250, window.innerHeight - 72, 'code', Code_Reactor.CodeMirrorOptions));
 
         Code_Reactor.editor[0].init();
 
         Code_Reactor.newFile();
+
+        $(".CodeMirror").css("font-size", Code_Reactor.fontSize.toString() + 'px');
+        $(".CodeMirror").css("font-family", Code_Reactor.font_family);
+        document.getElementById('font-size').innerHTML = "Font Size - " + Code_Reactor.fontSize.toString() + 'px';
 
         // declare "Code_Reactor.projectName" var
         var pp = Code_Reactor.appRoot.trim().split(this.dirSeperator);
@@ -85,7 +121,7 @@ var Code_Reactor = {
             //Code_Reactor.gui.App.registerGlobalHotKey(new Code_Reactor.gui.Shortcut(value));
 
             /* Register applications hotkey */
-            $(document).bind('keydown', value.key, value.active);
+            $("*").bind('keydown', value.key, value.active);
 
         });
 
@@ -137,6 +173,12 @@ var Code_Reactor = {
     editor: [],
 
     /**
+     * Here where I store all Meta @class isntances!
+     * @type {Array<object>} 
+     */
+    meta: [],
+
+    /**
      * Here where I store all Log @class isntances!
      * @type {Array<object>} 
      */
@@ -149,6 +191,14 @@ var Code_Reactor = {
     newFile: function () {
         this.file.push(new Code_Reactor.File(Code_Reactor.appRoot + this.dirSeperator + makeid(undefined, true), 0));
         this.file[this.file.length - 1].new();
+    },
+
+    /**
+     * Create a new meta file
+     * @method Code_Reactor.newMetaFile
+     */
+    newMetaFile: function (name, filepath, content) {
+        this.meta.push(new Code_Reactor.Meta(name, filepath, content));
     },
 
     /**
@@ -201,7 +251,6 @@ var Code_Reactor = {
                     Code_Reactor.openFile(rr[i].file);
                 } else if (rr[i].dir !== undefined) {
                     Code_Reactor.openDir(rr[i].dir, 'workplace', 2);
-                    //totalDirs++;
                 } else {
                     Code_Reactor.log[0].log("Log", "Couldn't open file/dir");
                 }
@@ -222,7 +271,6 @@ var Code_Reactor = {
                         Code_Reactor.openFile(rr[i].file);
                     } else if (rr[i].dir !== undefined) {
                         Code_Reactor.openDir(rr[i].dir, 'workplace', 2);
-                        //totalDirs++;
                     } else {
                         Code_Reactor.log[0].log("Log", "Couldn't open file/dir");
                     }
@@ -427,6 +475,28 @@ var Code_Reactor = {
             key: "`",
             active: function () {
                 Code_Reactor.gui.Window.get().showDevTools();
+            },
+            failed: function (msg) {
+                // :(, fail to register the |key| or couldn't parse the |key|.
+                Code_Reactor.log[0].log("Error", msg);
+            }
+        },
+        {
+            key: "ctrl+shift+=",
+            active: function () {
+                $(".CodeMirror").css("font-size", ++Code_Reactor.fontSize);
+                document.getElementById('font-size').innerHTML = "Font Size - " + Code_Reactor.fontSize.toString() + 'px';
+            },
+            failed: function (msg) {
+                // :(, fail to register the |key| or couldn't parse the |key|.
+                Code_Reactor.log[0].log("Error", msg);
+            }
+        },
+        {
+            key: "ctrl+shift+-",
+            active: function () {
+                $(".CodeMirror").css("font-size", --Code_Reactor.fontSize);
+                document.getElementById('font-size').innerHTML = "Font Size - " + Code_Reactor.fontSize.toString() + 'px';
             },
             failed: function (msg) {
                 // :(, fail to register the |key| or couldn't parse the |key|.
