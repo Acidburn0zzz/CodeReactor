@@ -198,7 +198,7 @@ var Code_Reactor = {
                 });
                 break;
             case 'linux':
-                exec('uxterm -c "cd ' + Code_Reactor.projectPath + '" &', function callback(error, stdout, stderr) {
+                exec('uxterm -c "cd ' + Code_Reactor.projectPath + '"', function callback(error, stdout, stderr) {
                     // result
                 });
                 break;
