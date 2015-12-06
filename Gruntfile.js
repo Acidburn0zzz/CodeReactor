@@ -10,7 +10,7 @@ module.exports = function (grunt) {
                             'linux', 'linux32', 'linux64',
                             'osx', 'osx32', 'osx64']
             },
-            src: ['./*', './icons/**/*', './css/*', './src/*', './src/mode/*', './src/theme/*',
+            src: ['./*', './icons/**/*', './css/*', './src/**/*', 'fonts/**/*',
                   './node_modules/app-root-path/**/*', './node_modules/beautifier/bin/*', './node_modules/beautifier/lib/*',
                   './node_modules/bootstrap/dist/js/bootstrap.min.js', './node_modules/bootstrap/dist/css/bootstrap.min.css', './node_modules/bootstrap/dist/css/bootstrap-theme.min.css',
                   './node_modules/codemirror/addon/**/*', './node_modules/codemirror/lib/*', './node_modules/codemirror/mode/**/*',

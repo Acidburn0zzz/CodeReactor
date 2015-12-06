@@ -185,6 +185,35 @@ var Code_Reactor = {
     log: [],
 
     /**
+     * Open terminal
+     * @method Code_Reactor.openTerminal
+     */
+    openTerminal: function () {
+        var exec = require('child_process').exec;
+
+        switch (this.os.platform()) {
+            case 'win32':
+                exec('start cmd /K "cd '+Code_Reactor.projectPath+'"', function callback(error, stdout, stderr) {
+                    // result
+                });
+                break;
+            case 'linux':
+                this.dirSeperator = "/";
+                $("#dirDialog").attr("nwworkingdir", "/");
+                break;
+            case 'freebsd':
+                //@ToDO
+                break;
+            case 'darwin':
+                //@ToDO
+                break;
+            default:
+                $("#dirDialog").attr("nwworkingdir", this.appRoot);
+                break;
+        }
+    },
+
+    /**
      * Create a new file
      * @method Code_Reactor.newFile
      */

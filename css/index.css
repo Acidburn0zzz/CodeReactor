@@ -229,6 +229,12 @@ ul li span:hover {
     left: 61px;
 }
 
+#navigationBar #terminal{
+    position: absolute;
+    top: 2px;
+    right: 2px;
+}
+
 #GlslCanvas0 {
     position: absolute;
     z-index: 1;
