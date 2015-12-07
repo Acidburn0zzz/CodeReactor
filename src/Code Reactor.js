@@ -90,7 +90,7 @@ var Code_Reactor = {
         // CODE REACTOR LOG FILE(S)
         ////////////////////////////////////////////
         Code_Reactor.log.push(new Code_Reactor.Log("Activity", Code_Reactor.appRoot + "\\log\\activity.log", 1024));
-        Code_Reactor.log[0].log("Log", "Starting App...");
+        console.log("Starting App...");
 
         ////////////////////////////////////////////
         // CODE REACTOR EDITOR #0
@@ -112,7 +112,7 @@ var Code_Reactor = {
         document.getElementById('title').innerHTML = Code_Reactor.projectName;
 
         // Register all shortcuts
-        Code_Reactor.log[0].log("Log", "Shorcuts have been registered!");
+        console.log("Shorcuts have been registered!");
         Code_Reactor.shortcuts.forEach(function (value) {
             /* Register global hotkey */
             //Code_Reactor.gui.App.registerGlobalHotKey(new Code_Reactor.gui.Shortcut(value));
@@ -265,8 +265,6 @@ var Code_Reactor = {
         this.directory[instance].close();
     },
 
-    totalDirs: 0,
-
     /**
      * Open folder
      * @method Code_Reactor.openFolder
@@ -275,7 +273,7 @@ var Code_Reactor = {
         var rr = null;
 
         if (path !== undefined) {
-            
+
             if (close === undefined || close === true) {
                 Code_Reactor.closeAll();
             }
@@ -292,7 +290,7 @@ var Code_Reactor = {
                 } else if (rr[i].dir !== undefined) {
                     Code_Reactor.openDir(rr[i].dir, 'workplace', 2);
                 } else {
-                    Code_Reactor.log[0].log("Log", "Couldn't open file/dir");
+                    console.warn("Couldn't open file/dir");
                 }
             }
             Code_Reactor.updateConfig();
@@ -300,7 +298,7 @@ var Code_Reactor = {
             var chooser = $('#dirDialog');
             chooser.unbind('change');
             chooser.change(function (evt) {
-                
+
                 if (close === undefined || close === true) {
                     Code_Reactor.closeAll();
                 }
@@ -317,7 +315,7 @@ var Code_Reactor = {
                     } else if (rr[i].dir !== undefined) {
                         Code_Reactor.openDir(rr[i].dir, 'workplace', 2);
                     } else {
-                        Code_Reactor.log[0].log("Log", "Couldn't open file/dir");
+                        console.log("Couldn't open file/dir");
                     }
                 }
                 Code_Reactor.updateConfig();
@@ -461,7 +459,7 @@ var Code_Reactor = {
             },
             failed: function (msg) {
                 // :(, fail to register the |key| or couldn't parse the |key|.
-                Code_Reactor.log[0].log("Error", msg);
+                console.error(msg);
             }
         },
         {
@@ -471,7 +469,7 @@ var Code_Reactor = {
             },
             failed: function (msg) {
                 // :(, fail to register the |key| or couldn't parse the |key|.
-                Code_Reactor.log[0].log("Error", msg);
+                console.error(msg);
             }
         },
         {
@@ -481,7 +479,7 @@ var Code_Reactor = {
             },
             failed: function (msg) {
                 // :(, fail to register the |key| or couldn't parse the |key|.
-                Code_Reactor.log[0].log("Error", msg);
+                console.error(msg);
             }
         },
         {
@@ -491,7 +489,7 @@ var Code_Reactor = {
             },
             failed: function (msg) {
                 // :(, fail to register the |key| or couldn't parse the |key|.
-                Code_Reactor.log[0].log("Error", msg);
+                console.error(msg);
             }
         },
         {
@@ -501,7 +499,7 @@ var Code_Reactor = {
             },
             failed: function (msg) {
                 // :(, fail to register the |key| or couldn't parse the |key|.
-                Code_Reactor.log[0].log("Error", msg);
+                console.error(msg);
             }
         },
         {
@@ -511,7 +509,7 @@ var Code_Reactor = {
             },
             failed: function (msg) {
                 // :(, fail to register the |key| or couldn't parse the |key|.
-                Code_Reactor.log[0].log("Error", msg);
+                console.error(msg);
             }
         },
         {
@@ -521,7 +519,7 @@ var Code_Reactor = {
             },
             failed: function (msg) {
                 // :(, fail to register the |key| or couldn't parse the |key|.
-                Code_Reactor.log[0].log("Error", msg);
+                console.error(msg);
             }
         },
         {
@@ -531,7 +529,7 @@ var Code_Reactor = {
             },
             failed: function (msg) {
                 // :(, fail to register the |key| or couldn't parse the |key|.
-                Code_Reactor.log[0].log("Error", msg);
+                console.error(msg);
             }
         },
         {
@@ -542,7 +540,7 @@ var Code_Reactor = {
             },
             failed: function (msg) {
                 // :(, fail to register the |key| or couldn't parse the |key|.
-                Code_Reactor.log[0].log("Error", msg);
+                console.error(msg);
             }
         },
         {
@@ -553,7 +551,7 @@ var Code_Reactor = {
             },
             failed: function (msg) {
                 // :(, fail to register the |key| or couldn't parse the |key|.
-                Code_Reactor.log[0].log("Error", msg);
+                console.error(msg);
             }
         },
         {
@@ -563,7 +561,7 @@ var Code_Reactor = {
             },
             failed: function (msg) {
                 // :(, fail to register the |key| or couldn't parse the |key|.
-                Code_Reactor.log[0].log("Error", msg);
+                console.error(msg);
             }
         }
     ]

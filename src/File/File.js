@@ -38,6 +38,8 @@ Code_Reactor.File = function (filepath, viewport) {
 
     Code_Reactor.editor[this.viewport].file = this.instance;
 
+    this.inWorkplace = false;
+
 };
 
 Code_Reactor.File.prototype = {
@@ -71,7 +73,7 @@ Code_Reactor.File.prototype = {
             // render file in the viewport of your choice
             Code_Reactor.editor[viewport].loadContent(contentToLoad.toString());
 
-            Code_Reactor.log[0].log("Log", path + " was opened succesfully!");
+            console.log(path + " was opened succesfully!");
         } else {
             this.chooseFile(
                 function (fp) {
@@ -85,7 +87,7 @@ Code_Reactor.File.prototype = {
                     // render file in the viewport of your choice
                     Code_Reactor.editor[viewport].loadContent(contentToLoad.toString());
 
-                    Code_Reactor.log[0].log("Log", fp + " was opened succesfully!");
+                    console.log(fp + " was opened succesfully!");
                 }, '#fileDialog', false);
         }
 
@@ -102,10 +104,10 @@ Code_Reactor.File.prototype = {
             this.chooseFile(function (fp) {
                 fs.writeFile(fp, contentToWrite, function (err) {
                     if (err) {
-                        return Code_Reactor.log[0].log("Error", err);
+                        return console.error(err);
                     }
 
-                    Code_Reactor.log[0].log("Log", fp + " was saved succesfully!");
+                    console.log(fp + " was saved succesfully!");
                 });
 
             }, '#fileDialog2', false);
@@ -115,24 +117,26 @@ Code_Reactor.File.prototype = {
             var openedFile = Code_Reactor.file[Code_Reactor.editor[this.viewport].file];
             fs.writeFile(openedFile.filepath, openedFile.content, function (err) {
                 if (err) {
-                    return Code_Reactor.log[0].log("Error", err);
+                    return console.error( err);
                 }
 
-                Code_Reactor.log[0].log("Log", openedFile.filepath + " was saved succesfully!");
+                console.log(openedFile.filepath + " was saved succesfully!");
             });
         }
 
     },
 
     close: function () {
-        this.removeFromOpenedFilesList();
+        if (this.inWorkplace) {
+            this.removeFromOpenedFilesList();
+        }
         if (Code_Reactor.file.length > 0) {
             if (this.instance === 0) {
                 Code_Reactor.file[0].render();
             } else {
                 Code_Reactor.file[this.instance - 1].render();
             }
-            Code_Reactor.log[0].log("Log", this.filepath + " was closed succesfully!");
+            console.log(this.filepath + " was closed succesfully!");
         }
     },
 
@@ -344,6 +348,7 @@ Code_Reactor.File.prototype = {
     },
 
     appendToWorkplace: function () {
+        this.inWorkplace = true;
         var filename = this.updateFilename();
         console.log('append: ' + filename);
 

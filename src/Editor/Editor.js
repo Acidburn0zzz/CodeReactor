@@ -61,7 +61,7 @@ Code_Reactor.Editor.prototype = {
             try {
                 Code_Reactor.file[file].content = cm.getValue();
             } catch (e) {
-                Code_Reactor.log[0].log("Warn", e);
+                console.warn(e);
             }
 
             if (Code_Reactor.isGlslModeOn) {

@@ -34,7 +34,7 @@ Code_Reactor.Directory = function (filepath, parent, space) {
         console.warn("Forgot to pass 'parent' parameter! \n Default value ('workplace') 'll be used");
     }
 
-    this.id = 'ofolder' + Code_Reactor.totalDirs++;
+    this.id = 'ofolder' + Code_Reactor.directory.length;
 
     this.toAppend = true;
 
@@ -102,7 +102,7 @@ Code_Reactor.Directory.prototype = {
     },
 
     close: function () {
-        $("ul").remove("#" + this.id);
+        $("ul").remove("#" + this.id.toString());
     },
 
     updateFoldername: function () {
