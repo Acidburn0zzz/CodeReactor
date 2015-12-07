@@ -17,6 +17,5 @@ ___
 3. `grunt`
 
 <!--### Screenshots-->
-<!--![pacman](http://i.imgur.com/xsHhtQV.png)-->
-<!--![Julia Sets](http://i.imgur.com/bQA8XPG.png)-->
-<!--![JavaScript](http://i.imgur.com/rMnvGCD.png)-->
+![JavaScript](https://i.imgur.com/3954nuu.png)
+![Julia Sets](https://i.imgur.com/AY7Hi7n.png)

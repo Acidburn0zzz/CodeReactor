@@ -245,7 +245,11 @@ var Code_Reactor = {
      * Open new file
      * @method Code_Reactor.openFile
      */
-    openFile: function (path, append) {
+    openFile: function (path, append, close) {
+        if (close !== undefined && close === true) {
+            this.closeAll();
+        }
+
         var file = new Code_Reactor.File(path, 0);
         file.open(path, append);
         this.file.push(file);
