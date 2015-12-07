@@ -80,13 +80,10 @@ var Code_Reactor = {
                 Code_Reactor.CodeMirrorOptions = cc.CodeMirrorOptions;
                 Code_Reactor.fontSize = cc.fontSize;
                 Code_Reactor.font_family = cc.font_family;
+                Code_Reactor.projectPath = cc.projectPath;
             }
         } catch (e) {
-            Code_Reactor.jsonfile.writeFileSync(configPath, {
-                CodeMirrorOptions: Code_Reactor.CodeMirrorOptions,
-                fontSize: Code_Reactor.fontSize,
-                font_family: Code_Reactor.font_family
-            });
+            this.updateConfig();
         }
 
         ////////////////////////////////////////////
@@ -126,6 +123,19 @@ var Code_Reactor = {
         });
 
         Code_Reactor.Git.set();
+
+        Code_Reactor.openFolder(this.projectPath);
+    },
+
+    updateConfig: function () {
+        var configPath = this.gui.App.dataPath + this.dirSeperator + "config.json";
+
+        this.jsonfile.writeFileSync(configPath, {
+            CodeMirrorOptions: this.CodeMirrorOptions,
+            fontSize: this.fontSize,
+            font_family: this.font_family,
+            projectPath: this.projectPath
+        });
     },
 
     /**
@@ -193,7 +203,7 @@ var Code_Reactor = {
 
         switch (this.os.platform()) {
             case 'win32':
-                exec('start cmd /K "cd ' + Code_Reactor.projectPath + '"', function callback(error, stdout, stderr) {
+                exec('start cmd /T:8F /K "cd ' + Code_Reactor.projectPath + ' && title CodeReactor"', function callback(error, stdout, stderr) {
                     // result
                 });
                 break;
@@ -264,11 +274,11 @@ var Code_Reactor = {
     openFolder: function (path, close) {
         var rr = null;
 
-        if (close === undefined || close === true) {
-            this.closeAll();
-        }
-
         if (path !== undefined) {
+            
+            if (close === undefined || close === true) {
+                Code_Reactor.closeAll();
+            }
             // set new projects name
             this.setProjectName(path);
             // cd to new project's path
@@ -285,10 +295,15 @@ var Code_Reactor = {
                     Code_Reactor.log[0].log("Log", "Couldn't open file/dir");
                 }
             }
+            Code_Reactor.updateConfig();
         } else {
             var chooser = $('#dirDialog');
             chooser.unbind('change');
             chooser.change(function (evt) {
+                
+                if (close === undefined || close === true) {
+                    Code_Reactor.closeAll();
+                }
                 // set new projects name
                 Code_Reactor.setProjectName($(this).val());
                 // cd to new project's path
@@ -305,6 +320,7 @@ var Code_Reactor = {
                         Code_Reactor.log[0].log("Log", "Couldn't open file/dir");
                     }
                 }
+                Code_Reactor.updateConfig();
             });
 
             chooser.trigger('click');
@@ -332,6 +348,13 @@ var Code_Reactor = {
                 this.file[i].close();
             }
             this.file = [];
+        }
+
+        if (this.directory.length > 0) {
+            for (var i = 0; i < this.directory.length; i++) {
+                this.directory[i].close();
+            }
+            this.directory = [];
         }
     },
 
@@ -502,7 +525,7 @@ var Code_Reactor = {
             }
         },
         {
-            key: "`",
+            key: "f12",
             active: function () {
                 Code_Reactor.gui.Window.get().showDevTools();
             },
@@ -527,6 +550,16 @@ var Code_Reactor = {
             active: function () {
                 $(".CodeMirror").css("font-size", --Code_Reactor.fontSize);
                 document.getElementById('font-size').innerHTML = "Font Size - " + Code_Reactor.fontSize.toString() + 'px';
+            },
+            failed: function (msg) {
+                // :(, fail to register the |key| or couldn't parse the |key|.
+                Code_Reactor.log[0].log("Error", msg);
+            }
+        },
+        {
+            key: "f5",
+            active: function () {
+                var win = Code_Reactor.gui.Window.get().reload();
             },
             failed: function (msg) {
                 // :(, fail to register the |key| or couldn't parse the |key|.

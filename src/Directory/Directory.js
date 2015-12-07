@@ -102,7 +102,7 @@ Code_Reactor.Directory.prototype = {
     },
 
     close: function () {
-        $("li").remove("#ofolder" + this.instance.toString());
+        $("ul").remove("#" + this.id);
     },
 
     updateFoldername: function () {

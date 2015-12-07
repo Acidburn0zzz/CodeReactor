@@ -17,7 +17,7 @@
         "min_width": 960,
         "min_height": 520,
         "resizable": true,
-        "toolbar": true,
+        "toolbar": false,
         "frame": false,
         "position": "center"
     },
