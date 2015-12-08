@@ -77,10 +77,18 @@ var Code_Reactor = {
             if (!Code_Reactor.isBinaryFile.sync(configPath) && stats.isFile()) {
                 var cc = Code_Reactor.jsonfile.readFileSync(configPath);
 
-                Code_Reactor.CodeMirrorOptions = cc.CodeMirrorOptions;
-                Code_Reactor.fontSize = cc.fontSize;
-                Code_Reactor.font_family = cc.font_family;
-                Code_Reactor.projectPath = cc.projectPath;
+                if (cc.CodeMirrorOptions !== undefined) {
+                    Code_Reactor.CodeMirrorOptions = cc.CodeMirrorOptions;
+                }
+                if (cc.fontSize !== undefined) {
+                    Code_Reactor.fontSize = cc.fontSize;
+                }
+                if (cc.font_family !== undefined) {
+                    Code_Reactor.font_family = cc.font_family;
+                }
+                if (cc.projectPath !== undefined) {
+                    Code_Reactor.projectPath = cc.projectPath;
+                }
             }
         } catch (e) {
             this.updateConfig();
