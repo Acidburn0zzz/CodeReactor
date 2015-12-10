@@ -211,13 +211,21 @@ var Code_Reactor = {
 
         switch (this.os.platform()) {
             case 'win32':
-                exec('start cmd /T:8F /K "cd ' + Code_Reactor.projectPath + ' && title CodeReactor"', function callback(error, stdout, stderr) {
-                    // result
+                exec('start cmd /T:8F /K "cd ' + Code_Reactor.projectPath + ' && title CodeReactor"', function (error, stdout, stderr) {
+                    console.log('stdout: ' + stdout);
+                    console.log('stderr: ' + stderr);
+                    if (error !== null) {
+                        console.log('exec error: ' + error);
+                    }
                 });
                 break;
             case 'linux':
-                exec('uxterm -c "cd ' + Code_Reactor.projectPath + '"', function callback(error, stdout, stderr) {
-                    // result
+                exec('uxterm -c "cd ' + Code_Reactor.projectPath + '"', function (error, stdout, stderr) {
+                    console.log('stdout: ' + stdout);
+                    console.log('stderr: ' + stderr);
+                    if (error !== null) {
+                        console.log('exec error: ' + error);
+                    }
                 });
                 break;
             case 'freebsd':
@@ -353,15 +361,16 @@ var Code_Reactor = {
      * @method Code_Reactor.closeAll
      */
     closeAll: function () {
+        "use strict";
         if (this.file.length > 0) {
-            for (var i = 0; i < this.file.length; i++) {
+            for (let i = 0; i < this.file.length; i++) {
                 this.file[i].close();
             }
             this.file = [];
         }
 
         if (this.directory.length > 0) {
-            for (var i = 0; i < this.directory.length; i++) {
+            for (let i = 0; i < this.directory.length; i++) {
                 this.directory[i].close();
             }
             this.directory = [];

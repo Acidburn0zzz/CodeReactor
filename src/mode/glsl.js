@@ -101,14 +101,16 @@ CodeMirror.defineMode("glsl", function (config, parserConfig) {
         var indent = state.indented;
         if (state.context && state.context.type == "statement")
             indent = state.context.indented;
-        return state.context = new Context(indent, col, type, null, state.context);
+        state.context = new Context(indent, col, type, null, state.context);
+        return state.context;
     }
 
     function popContext(state) {
         var t = state.context.type;
         if (t == ")" || t == "]" || t == "}")
             state.indented = state.context.indented;
-        return state.context = state.context.prev;
+        state.context = state.context.prev;
+        return state.context;
     }
 
     // Interface
@@ -176,8 +178,8 @@ CodeMirror.defineMode("glsl", function (config, parserConfig) {
 (function () {
     function words(str) {
         var obj = {},
-            words = str.split(" ");
-        for (var i = 0; i < words.length; ++i) obj[words[i]] = true;
+            _words = str.split(" ");
+        for (var i = 0; i < _words.length; ++i) obj[_words[i]] = true;
         return obj;
     }
     var glslKeywords = "attribute const uniform varying break continue " +
