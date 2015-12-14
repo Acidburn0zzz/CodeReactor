@@ -126,11 +126,9 @@ var Code_Reactor = {
             //Code_Reactor.gui.App.registerGlobalHotKey(new Code_Reactor.gui.Shortcut(value));
 
             /* Register applications hotkey */
-            $("*").bind('keydown', value.key, value.active);
+            $("html *").bind(value.type, value.key, value.active);
 
         });
-
-        Code_Reactor.SoundPlayer.init();
 
         Code_Reactor.Git.set();
 
@@ -477,6 +475,7 @@ var Code_Reactor = {
     shortcuts: [
         {
             key: "ctrl+o",
+            type: "keydown",
             active: function () {
                 Code_Reactor.openFile();
             },
@@ -487,6 +486,7 @@ var Code_Reactor = {
         },
         {
             key: "ctrl+n",
+            type: "keydown",
             active: function () {
                 Code_Reactor.newFile();
             },
@@ -497,6 +497,7 @@ var Code_Reactor = {
         },
         {
             key: "ctrl+shift+s",
+            type: "keydown",
             active: function () {
                 Code_Reactor.saveFile(true);
             },
@@ -507,6 +508,7 @@ var Code_Reactor = {
         },
         {
             key: "ctrl+s",
+            type: "keydown",
             active: function () {
                 Code_Reactor.saveFile(false);
             },
@@ -517,6 +519,7 @@ var Code_Reactor = {
         },
         {
             key: "ctrl+shift+o",
+            type: "keydown",
             active: function () {
                 Code_Reactor.openFolder();
             },
@@ -527,6 +530,7 @@ var Code_Reactor = {
         },
         {
             key: "ctrl+w",
+            type: "keydown",
             active: function () {
                 Code_Reactor.close(Code_Reactor.editor[0].file);
             },
@@ -537,6 +541,7 @@ var Code_Reactor = {
         },
         {
             key: "ctrl+shift+w",
+            type: "keydown",
             active: function () {
                 Code_Reactor.closeAll();
             },
@@ -547,6 +552,7 @@ var Code_Reactor = {
         },
         {
             key: "f12",
+            type: "keydown",
             active: function () {
                 Code_Reactor.gui.Window.get().showDevTools();
             },
@@ -557,6 +563,7 @@ var Code_Reactor = {
         },
         {
             key: "ctrl+shift+=",
+            type: "keydown",
             active: function () {
                 $(".CodeMirror").css("font-size", ++Code_Reactor.fontSize);
                 document.getElementById('font-size').innerHTML = "Font Size - " + Code_Reactor.fontSize.toString() + 'px';
@@ -568,6 +575,7 @@ var Code_Reactor = {
         },
         {
             key: "ctrl+shift+-",
+            type: "keydown",
             active: function () {
                 $(".CodeMirror").css("font-size", --Code_Reactor.fontSize);
                 document.getElementById('font-size').innerHTML = "Font Size - " + Code_Reactor.fontSize.toString() + 'px';
@@ -579,6 +587,7 @@ var Code_Reactor = {
         },
         {
             key: "f5",
+            type: "keydown",
             active: function () {
                 var win = Code_Reactor.gui.Window.get().reload();
             },
@@ -589,8 +598,53 @@ var Code_Reactor = {
         },
         {
             key: "f1",
+            type: "keydown",
             active: function () {
                 Code_Reactor.SoundPlayer.play();
+            },
+            failed: function (msg) {
+                // :(, fail to register the |key| or couldn't parse the |key|.
+                console.error(msg);
+            }
+        },
+        {
+            key: "ctrl+right",
+            type: "keydown",
+            active: function () {
+                Code_Reactor.SoundPlayer.play_next();
+            },
+            failed: function (msg) {
+                // :(, fail to register the |key| or couldn't parse the |key|.
+                console.error(msg);
+            }
+        },
+        {
+            key: "ctrl+left",
+            type: "keydown",
+            active: function () {
+                Code_Reactor.SoundPlayer.play_previous();
+            },
+            failed: function (msg) {
+                // :(, fail to register the |key| or couldn't parse the |key|.
+                console.error(msg);
+            }
+        },
+        {
+            key: "ctrl+up",
+            type: "keydown",
+            active: function () {
+                Code_Reactor.SoundPlayer.increase_volume();
+            },
+            failed: function (msg) {
+                // :(, fail to register the |key| or couldn't parse the |key|.
+                console.error(msg);
+            }
+        },
+        {
+            key: "ctrl+down",
+            type: "keydown",
+            active: function () {
+                Code_Reactor.SoundPlayer.decrease_volume();
             },
             failed: function (msg) {
                 // :(, fail to register the |key| or couldn't parse the |key|.
@@ -614,6 +668,7 @@ function render_all_GlslCanvas() {
 
 // window onload event
 window.onload = function () {
+    Code_Reactor.SoundPlayer.init();
     Code_Reactor.init();
 };
 

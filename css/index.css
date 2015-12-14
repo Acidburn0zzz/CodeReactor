@@ -120,6 +120,35 @@ ul li span:hover {
     -webkit-app-region: no-drag;
 }
 
+#tilebar #song_playin{
+    position: absolute;
+    bottom: 5px;
+    left: 30px;
+    color: #FFF;
+    -webkit-app-region: no-drag;
+}
+
+#tilebar #terminate {
+    position: absolute;
+    right: 0;
+    width: 30px;
+    -webkit-app-region: no-drag;
+}
+
+#tilebar #minimize {
+    position: absolute;
+    right: 30px;
+    width: 30px;
+    -webkit-app-region: no-drag;
+}
+
+#tilebar #toggleFullscreen {
+    position: absolute;
+    right: 60px;
+    width: 30px;
+    -webkit-app-region: no-drag;
+}
+
 #footer {
     bottom: 0px;
     height: 20px;
@@ -153,27 +182,6 @@ ul li span:hover {
     right: 80px;
     top: 2px;
     font-size: 12px;
-}
-
-#terminate {
-    position: absolute;
-    right: 0;
-    width: 30px;
-    -webkit-app-region: no-drag;
-}
-
-#minimize {
-    position: absolute;
-    right: 30px;
-    width: 30px;
-    -webkit-app-region: no-drag;
-}
-
-#toggleFullscreen {
-    position: absolute;
-    right: 60px;
-    width: 30px;
-    -webkit-app-region: no-drag;
 }
 
 #code-wrapper {
