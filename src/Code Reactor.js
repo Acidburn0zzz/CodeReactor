@@ -130,6 +130,8 @@ var Code_Reactor = {
 
         });
 
+        Code_Reactor.SoundPlayer.init();
+
         Code_Reactor.Git.set();
 
         Code_Reactor.openFolder(this.projectPath);
@@ -579,6 +581,16 @@ var Code_Reactor = {
             key: "f5",
             active: function () {
                 var win = Code_Reactor.gui.Window.get().reload();
+            },
+            failed: function (msg) {
+                // :(, fail to register the |key| or couldn't parse the |key|.
+                console.error(msg);
+            }
+        },
+        {
+            key: "f1",
+            active: function () {
+                Code_Reactor.SoundPlayer.play();
             },
             failed: function (msg) {
                 // :(, fail to register the |key| or couldn't parse the |key|.

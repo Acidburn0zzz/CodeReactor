@@ -326,6 +326,11 @@ Code_Reactor.File.prototype = {
             this.mode = "text/x-yaml";
             document.getElementById('mode').innerHTML = 'YAML';
         }
+        // GAS || AS
+        else if (this.filepath.slice(-2) === ".s" || this.filepath.slice(-4) === ".asm") {
+            this.mode = "text/x-z80";
+            document.getElementById('mode').innerHTML = 'Assembly';
+        }
         // Plain Text
         else {
             document.getElementById('mode').innerHTML = 'Plain Text';
