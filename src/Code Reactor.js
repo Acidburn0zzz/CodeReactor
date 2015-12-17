@@ -565,8 +565,10 @@ var Code_Reactor = {
             key: "ctrl+shift+=",
             type: "keydown",
             active: function () {
-                $(".CodeMirror").css("font-size", ++Code_Reactor.fontSize);
-                document.getElementById('font-size').innerHTML = "Font Size - " + Code_Reactor.fontSize.toString() + 'px';
+                if (Code_Reactor.fontSize !== 26) {
+                    $(".CodeMirror").css("font-size", ++Code_Reactor.fontSize);
+                    document.getElementById('font-size').innerHTML = "Font Size - " + Code_Reactor.fontSize.toString() + 'px';
+                }
             },
             failed: function (msg) {
                 // :(, fail to register the |key| or couldn't parse the |key|.
@@ -577,8 +579,10 @@ var Code_Reactor = {
             key: "ctrl+shift+-",
             type: "keydown",
             active: function () {
-                $(".CodeMirror").css("font-size", --Code_Reactor.fontSize);
-                document.getElementById('font-size').innerHTML = "Font Size - " + Code_Reactor.fontSize.toString() + 'px';
+                if (Code_Reactor.fontSize !== 8) {
+                    $(".CodeMirror").css("font-size", --Code_Reactor.fontSize);
+                    document.getElementById('font-size').innerHTML = "Font Size - " + Code_Reactor.fontSize.toString() + 'px';
+                }
             },
             failed: function (msg) {
                 // :(, fail to register the |key| or couldn't parse the |key|.

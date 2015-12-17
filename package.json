@@ -34,8 +34,7 @@
         "jquery": "^2.1.4",
         "jquery.hotkeys": "jeresig/jquery.hotkeys",
         "jsonfile": "^2.2.3",
-        "shelljs": "^0.5.3",
-        "soundcloud": "^3.0.1"
+        "shelljs": "^0.5.3"
     },
     "devDependencies": {
         "grunt-contrib-copy": "^0.8.2",
