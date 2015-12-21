@@ -19,7 +19,7 @@ Code_Reactor.SoundPlayer = {
             client_id: '8c4d05ea73a96fa248223b8bbaac971d'
         });
 
-        SC.resolve('https://soundcloud.com/alex-mourtziapis/sets/coding-playlist').then(function (response) {
+        SC.resolve(Code_Reactor.playlistURL).then(function (response) {
             //console.log(JSON.stringify(response));
             Code_Reactor.SoundPlayer.response = response;
         });

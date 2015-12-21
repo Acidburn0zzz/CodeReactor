@@ -42,6 +42,8 @@ var Code_Reactor = {
 
     font_family: "typewcond_regular",
 
+    playlistURL: "https://soundcloud.com/alex-mourtziapis/sets/coding-playlist",
+
     /**
      * Initialize Code Reactor
      * @method Code_Reactor.init
@@ -88,6 +90,9 @@ var Code_Reactor = {
                 }
                 if (cc.projectPath !== undefined) {
                     Code_Reactor.projectPath = cc.projectPath;
+                }
+                if (cc.playlistURL !== undefined) {
+                    Code_Reactor.playlistURL = cc.playlistURL;
                 }
             }
         } catch (e) {
@@ -142,7 +147,8 @@ var Code_Reactor = {
             CodeMirrorOptions: this.CodeMirrorOptions,
             fontSize: this.fontSize,
             font_family: this.font_family,
-            projectPath: this.projectPath
+            projectPath: this.projectPath,
+            playlistURL: this.playlistURL
         });
     },
 
