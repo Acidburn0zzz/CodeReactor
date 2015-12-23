@@ -10,7 +10,7 @@
  * @param {string} filepath - File's global filepath (*optional)
  * @param {number} viewport - viewport to render the file on (*required)
  */
-Code_Reactor.File = function (filepath, viewport) {
+Code_Reactor.File = function(filepath, viewport) {
 
     this.filepath = null;
     if (filepath === undefined) {
@@ -44,11 +44,11 @@ Code_Reactor.File = function (filepath, viewport) {
 
 Code_Reactor.File.prototype = {
 
-    new: function () {
+    new: function() {
         this.appendToWorkplace();
     },
 
-    open: function (path, append) {
+    open: function(path, append) {
         var fs = Code_Reactor.fs;
         var encoding = this.encoding;
         var viewport = this.viewport;
@@ -76,7 +76,7 @@ Code_Reactor.File.prototype = {
             console.log(path + " was opened succesfully!");
         } else {
             this.chooseFile(
-                function (fp) {
+                function(fp) {
                     if (append === true || append === undefined) {
                         // appened to Opened Files List
                         Code_Reactor.file[Code_Reactor.editor[viewport].file].appendToWorkplace();
@@ -94,15 +94,15 @@ Code_Reactor.File.prototype = {
         this.content = contentToLoad;
     },
 
-    save: function (as) {
+    save: function(as) {
         var fs = Code_Reactor.fs;
         var encoding = this.encoding;
         var contentToWrite = this.content;
 
         // Save file as ___________
         if (as) {
-            this.chooseFile(function (fp) {
-                fs.writeFile(fp, contentToWrite, function (err) {
+            this.chooseFile(function(fp) {
+                fs.writeFile(fp, contentToWrite, function(err) {
                     if (err) {
                         return console.error(err);
                     }
@@ -115,9 +115,9 @@ Code_Reactor.File.prototype = {
         // Save file
         else {
             var openedFile = Code_Reactor.file[Code_Reactor.editor[this.viewport].file];
-            fs.writeFile(openedFile.filepath, openedFile.content, function (err) {
+            fs.writeFile(openedFile.filepath, openedFile.content, function(err) {
                 if (err) {
-                    return console.error( err);
+                    return console.error(err);
                 }
 
                 console.log(openedFile.filepath + " was saved succesfully!");
@@ -126,7 +126,7 @@ Code_Reactor.File.prototype = {
 
     },
 
-    close: function () {
+    close: function() {
         if (this.inWorkplace) {
             this.removeFromOpenedFilesList();
         }
@@ -140,7 +140,7 @@ Code_Reactor.File.prototype = {
         }
     },
 
-    updateFilename: function (inSubDir) {
+    updateFilename: function(inSubDir) {
         this.filename = this.filepath.split(Code_Reactor.dirSeperator);
 
         if (Code_Reactor.dirSeperator === "\\") {
@@ -158,12 +158,12 @@ Code_Reactor.File.prototype = {
         return this.filename;
     },
 
-    chooseFile: function (func, name, append) {
+    chooseFile: function(func, name, append) {
         var chooser = $(name);
         var viewport = this.viewport;
 
         chooser.unbind('change');
-        chooser.change(function (evt) {
+        chooser.change(function(evt) {
             // Update "filepath" variable
             Code_Reactor.file[Code_Reactor.editor[viewport].file].filepath = $(this).val();
             if (append === true || append === undefined) {
@@ -179,7 +179,7 @@ Code_Reactor.File.prototype = {
         chooser.trigger('click');
     },
 
-    detectMode: function () {
+    detectMode: function() {
 
         // C
         if (this.filepath.slice(-2) === ".c" || this.filepath.slice(-2) === ".h") {
@@ -352,7 +352,7 @@ Code_Reactor.File.prototype = {
         Code_Reactor.editor[this.viewport].editor.setOption("mode", this.mode);
     },
 
-    appendToWorkplace: function () {
+    appendToWorkplace: function() {
         this.inWorkplace = true;
         var filename = this.updateFilename();
         console.log('append: ' + filename);
@@ -360,11 +360,11 @@ Code_Reactor.File.prototype = {
         document.getElementById('workplace').innerHTML += '<li id="ofile' + this.instance.toString() + '"><a href="#" onclick="Code_Reactor.file[' + this.instance.toString() + '].render()">' + filename + '</a></li>';
     },
 
-    removeFromOpenedFilesList: function () {
+    removeFromOpenedFilesList: function() {
         $("li").remove("#ofile" + this.instance.toString());
     },
 
-    render: function () {
+    render: function() {
         if (Code_Reactor.editor[this.viewport].file !== this.instance) {
             this.detectMode();
             Code_Reactor.editor[this.viewport].file = this.instance;

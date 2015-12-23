@@ -12,7 +12,7 @@
  * @param {string} id - text area id *
  * @param {Array<object>} args - CodeMirror args (*optional)
  */
-Code_Reactor.Editor = function (width, height, id, args) {
+Code_Reactor.Editor = function(width, height, id, args) {
 
     if (width === undefined) {
         this.width = -1;
@@ -49,12 +49,12 @@ Code_Reactor.Editor = function (width, height, id, args) {
 
 Code_Reactor.Editor.prototype = {
 
-    init: function () {
+    init: function() {
         this.editor = CodeMirror.fromTextArea(document.getElementById(this.id), this.args);
         var file = this.file;
         var instance = this.instance;
 
-        this.editor.on("change", function (cm, change) {
+        this.editor.on("change", function(cm, change) {
 
             file = Code_Reactor.editor[instance].file;
 
@@ -71,7 +71,7 @@ Code_Reactor.Editor.prototype = {
 
         });
 
-        this.editor.on("cursorActivity", function (cm, change) {
+        this.editor.on("cursorActivity", function(cm, change) {
             document.getElementById('L_C_posX_posY').innerHTML = 'Line ' + cm.getCursor().line + ',Column ' + cm.getCursor().ch + '<font color="#888888"> - ' + cm.lineCount() + ' Lines</font>';
         });
 
@@ -81,11 +81,11 @@ Code_Reactor.Editor.prototype = {
         }
     },
 
-    setSize: function (width, height) {
+    setSize: function(width, height) {
         this.editor.setSize(width, height);
     },
 
-    loadContent: function (value) {
+    loadContent: function(value) {
         this.editor.setValue(value);
     }
 

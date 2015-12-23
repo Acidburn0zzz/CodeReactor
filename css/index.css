@@ -1,5 +1,4 @@
 @import url("shapes.css");
-
 @font-face {
     font-family: typewcond_bold;
     src: url("../fonts/typewcond/typewcond_bold.otf");
@@ -120,7 +119,7 @@ ul li span:hover {
     -webkit-app-region: no-drag;
 }
 
-#tilebar #song_playin{
+#tilebar #song_playin {
     position: absolute;
     bottom: 5px;
     left: 30px;
@@ -176,7 +175,7 @@ ul li span:hover {
     font-size: 12px;
 }
 
-#footer #font-size{
+#footer #font-size {
     position: absolute;
     color: #FFF;
     right: 80px;
@@ -190,6 +189,7 @@ ul li span:hover {
     left: 250px;
     top: 52px;
 }
+
 
 /*#272822 Monokais theme background color*/
 
@@ -237,7 +237,7 @@ ul li span:hover {
     left: 61px;
 }
 
-#navigationBar #terminal{
+#navigationBar #terminal {
     position: absolute;
     top: 2px;
     right: 2px;

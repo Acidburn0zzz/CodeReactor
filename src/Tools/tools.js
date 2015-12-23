@@ -57,19 +57,19 @@ var mouse = {
     x: 0,
     y: 0
 };
-document.addEventListener('mousemove', function (e) {
+document.addEventListener('mousemove', function(e) {
     mouse.x = e.clientX || e.pageX;
     mouse.y = e.clientY || e.pageY
 }, false);
 
 // Provides requestAnimationFrame in a cross browser way.
-window.requestAnimFrame = (function () {
+window.requestAnimFrame = (function() {
     return window.requestAnimationFrame ||
         window.webkitRequestAnimationFrame ||
         window.mozRequestAnimationFrame ||
         window.oRequestAnimationFrame ||
         window.msRequestAnimationFrame ||
-        function (callback, element) {
+        function(callback, element) {
             return window.setTimeout(callback, 1000 / 60);
         };
 })();

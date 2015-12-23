@@ -22,23 +22,26 @@
         "position": "center"
     },
     "scripts": {
+        "precommit": "cd scripts && node Beautify.js",
         "start": "nw ."
     },
     "dependencies": {
         "app-root-path": "^1.0.0",
-        "beautifier": "^0.1.7",
         "bootstrap": "^3.3.5",
         "codemirror": "^5.8.0",
+        "colors": "^1.1.2",
         "grunt": "^0.4.5",
         "isbinaryfile": "^3.0.0",
         "jquery": "^2.1.4",
         "jquery.hotkeys": "jeresig/jquery.hotkeys",
+        "js-beautify": "^1.5.10",
         "jsonfile": "^2.2.3",
         "shelljs": "^0.5.3"
     },
     "devDependencies": {
         "grunt-contrib-copy": "^0.8.2",
         "grunt-nw-builder": "^2.0.0",
+        "husky": "^0.10.2",
         "nw-builder": "^2.0.2"
     }
 }

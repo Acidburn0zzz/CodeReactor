@@ -11,7 +11,7 @@
  * @param {string} filepath - the global filepath of the log file (*optional)
  * @param {number} maxSize - max size of log file in bytes (*optional)
  */
-Code_Reactor.Log = function (name, filepath, maxSize) {
+Code_Reactor.Log = function(name, filepath, maxSize) {
 
     this.name = "uunnamed";
     if (name !== undefined) {
@@ -39,7 +39,7 @@ Code_Reactor.Log = function (name, filepath, maxSize) {
 };
 
 Code_Reactor.Log.prototype = {
-    log: function (type, value) {
+    log: function(type, value) {
         var fs = Code_Reactor.fs;
         var fileRoot = this.filepath.trim().split("\\");
         fileRoot = fileRoot[fileRoot.length - 2];
@@ -75,13 +75,13 @@ Code_Reactor.Log.prototype = {
         }
     },
 
-    hasReachedMaxSize: function () {
+    hasReachedMaxSize: function() {
         var fs = Code_Reactor.fs;
         var filepath = this.filepath;
         var maxSize = this.maxSize;
 
-        fs.watch(filepath, function (curr, prev) {
-            fs.stat(filepath, function (err, stats) {
+        fs.watch(filepath, function(curr, prev) {
+            fs.stat(filepath, function(err, stats) {
                 return (stats.size > maxSize);
             });
         });
@@ -89,13 +89,13 @@ Code_Reactor.Log.prototype = {
         return false;
     },
 
-    getDMYString: function () {
+    getDMYString: function() {
         return (this.d.getDay() + "/" +
             this.d.getMonth() + "/" +
             this.d.getFullYear());
     },
 
-    getHMSString: function () {
+    getHMSString: function() {
         return (this.d.getHours() + ":" +
             this.d.getMinutes() + ":" +
             this.d.getSeconds());

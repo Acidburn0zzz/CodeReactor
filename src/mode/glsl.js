@@ -1,4 +1,4 @@
-CodeMirror.defineMode("glsl", function (config, parserConfig) {
+CodeMirror.defineMode("glsl", function(config, parserConfig) {
     var indentUnit = config.indentUnit,
         statementIndentUnit = parserConfig.statementIndentUnit || indentUnit,
         dontAlignCalls = parserConfig.dontAlignCalls,
@@ -60,7 +60,7 @@ CodeMirror.defineMode("glsl", function (config, parserConfig) {
     }
 
     function tokenString(quote) {
-        return function (stream, state) {
+        return function(stream, state) {
             var escaped = false,
                 next, end = false;
             while ((next = stream.next()) !== null) {
@@ -116,7 +116,7 @@ CodeMirror.defineMode("glsl", function (config, parserConfig) {
     // Interface
 
     return {
-        startState: function (basecolumn) {
+        startState: function(basecolumn) {
             return {
                 tokenize: null,
                 context: new Context((basecolumn || 0) - indentUnit, 0, "top", false),
@@ -125,7 +125,7 @@ CodeMirror.defineMode("glsl", function (config, parserConfig) {
             };
         },
 
-        token: function (stream, state) {
+        token: function(stream, state) {
             var ctx = state.context;
             if (stream.sol()) {
                 if (ctx.align === null) ctx.align = false;
@@ -155,7 +155,7 @@ CodeMirror.defineMode("glsl", function (config, parserConfig) {
             return style;
         },
 
-        indent: function (state, textAfter) {
+        indent: function(state, textAfter) {
             if (state.tokenize != tokenBase && state.tokenize !== null) return CodeMirror.Pass;
             var ctx = state.context,
                 firstChar = textAfter && textAfter.charAt(0);
@@ -175,7 +175,7 @@ CodeMirror.defineMode("glsl", function (config, parserConfig) {
     };
 });
 
-(function () {
+(function() {
     function words(str) {
         var obj = {},
             _words = str.split(" ");

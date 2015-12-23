@@ -11,7 +11,7 @@
  * @param {string} filepath - Meta file's global filepath (*required)
  * @param {Array<object>} content - viewport to render the file on (*optional)
  */
-Code_Reactor.Meta = function (name, filepath, content) {
+Code_Reactor.Meta = function(name, filepath, content) {
 
     this.name = "unnamed";
     if (name !== undefined) {
@@ -35,7 +35,7 @@ Code_Reactor.Meta = function (name, filepath, content) {
 
 Code_Reactor.Meta.prototype = {
 
-    init: function () {
+    init: function() {
         var fs = Code_Reactor.fs;
         var jsonfile = Code_Reactor.jsonfile;
 
@@ -46,13 +46,13 @@ Code_Reactor.Meta.prototype = {
                 this.content = jsonfile.readFileSync(this.filepath);
             }
         } catch (e) {
-            if (this.content !== null && typeof (this.content) === "object" && this.filepath !== null) {
+            if (this.content !== null && typeof(this.content) === "object" && this.filepath !== null) {
                 jsonfile.writeFileSync(this.filepath, this.content);
             }
         }
     },
 
-    write: function (content, filepath) {
+    write: function(content, filepath) {
         var jsonfile = Code_Reactor.jsonfile;
 
         var fp = this.filepath;
@@ -65,7 +65,7 @@ Code_Reactor.Meta.prototype = {
             cn = content;
         }
 
-        if (content !== null && typeof (content) === "object" && fp !== null) {
+        if (content !== null && typeof(content) === "object" && fp !== null) {
             jsonfile.writeFileSync(fp, content);
         }
     }
