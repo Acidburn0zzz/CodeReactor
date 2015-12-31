@@ -22,7 +22,11 @@
         "position": "center"
     },
     "scripts": {
-        "precommit": "cd scripts && node Beautify.js",
+        "precommit": "npm run beautify",
+        "beautify": "node scripts/Beautify.js",
+        "clean": "node scripts/Clean.js",
+        "minify": "node scripts/Minify.js",
+        "build": "npm run minify && grunt && npm run clean",
         "start": "nw ."
     },
     "dependencies": {
@@ -35,8 +39,12 @@
         "jquery": "^2.1.4",
         "jquery.hotkeys": "jeresig/jquery.hotkeys",
         "js-beautify": "^1.5.10",
+        "jslint": "^0.9.5",
         "jsonfile": "^2.2.3",
-        "shelljs": "^0.5.3"
+        "requirejs": "^2.1.22",
+        "shelljs": "^0.5.3",
+        "uglify-js": "^2.6.1",
+        "uglifycss": "0.0.19"
     },
     "devDependencies": {
         "grunt-contrib-copy": "^0.8.2",

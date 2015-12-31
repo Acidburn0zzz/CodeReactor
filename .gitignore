@@ -89,3 +89,7 @@ $RECYCLE.BIN/
 /nwjc
 /nw
 /libffmpegsumo.so
+
+*.min.js
+*.js.map
+*.min.css

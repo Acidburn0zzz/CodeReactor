@@ -5,9 +5,12 @@ var beautify_html = require('js-beautify').html;
 var colors = require('colors');
 var isBinaryFile = require("isbinaryfile");
 
-var path = process.argv[2];
+//var path = process.argv[2];
+console.log("Starting Beautifier ...".magenta);
 
-console.log("Initializing beautifier script".green);
+function getTime() {
+    return new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
+}
 
 function detectMode(filepath) {
 
@@ -34,7 +37,7 @@ function beautify(path) {
         var stat = fs.statSync(file);
 
         if (stat && stat.isDirectory()) {
-            results.concat(beautify(file));
+            beautify(file);
         } else if (!isBinaryFile.sync(file)) {
             results.push(file);
         }
@@ -46,29 +49,23 @@ function beautify(path) {
 
         if (detectMode(results[i]) === 'js') {
             fs.writeFileSync(results[i], beautify_js(data), 'utf8');
-            console.log(colors.green("Beautified " + results[i]));
+            console.log(getTime() + colors.green(" Beautified " + results[i]));
         } else if (detectMode(results[i]) === 'css') {
             fs.writeFileSync(results[i], beautify_css(data), 'utf8');
-            console.log(colors.green("Beautified " + results[i]));
+            console.log(getTime() + colors.green(" Beautified " + results[i]));
 
         } else if (detectMode(results[i]) === 'html') {
             fs.writeFileSync(results[i], beautify_html(data), 'utf8');
-            console.log(colors.green("Beautified " + results[i]));
+            console.log(getTime() + colors.green(" Beautified " + results[i]));
         } else {
-            console.warn(colors.yellow("Couldn't beautify " + results[i]));
+            console.warn(getTime() + colors.yellow(" Couldn't beautify " + results[i]));
         }
     }
-    //return results;
 }
 
-if (path !== undefined) {
-    beautify(path);
-} else {
-    console.log("Missing Argument 'Folder_Path' !".red);
-    beautify('../src');
-    beautify('../css');
+var data = fs.readFileSync('index.html', 'utf8').toString();
+fs.writeFileSync('index.html', beautify_html(data), 'utf8');
+console.log(getTime() + colors.green(" Beautified " + 'index.html'));
 
-    var data = fs.readFileSync('../index.html', 'utf8').toString();
-    fs.writeFileSync('../index.html', beautify_html(data), 'utf8');
-    console.log(colors.green("Beautified " + '../index.html'));
-}
+beautify('src');
+beautify('css');

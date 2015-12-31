@@ -37,6 +37,9 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/index.css">
+
+    <!-- Shapes -->
+    <link rel="stylesheet" href="css/shapes.css">
 </head>
 
 <body>
@@ -228,8 +231,6 @@
     <!-- GFM -->
     <script src="node_modules/codemirror/mode/gherkin/gherkin.js"></script>
     <!-- GHERKIN -->
-    <script src="src/mode/glsl.js"></script>
-    <!-- GLSL -->
     <script src="node_modules/codemirror/mode/go/go.js"></script>
     <!-- GO -->
     <script src="node_modules/codemirror/mode/groovy/groovy.js"></script>
@@ -370,38 +371,85 @@
     \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     -->
 
+    <script>
+        var fs = require('fs');
+
+        function include(file) {
+            try {
+                var stat = fs.lstatSync(file);
+
+                if (stat && !stat.isDirectory()) {
+                    var zz = document.createElement('script');
+                    zz.src = file;
+                    document.body.appendChild(zz);
+                    return true;
+                }
+            } catch (e) {
+                return false;
+            }
+        }
+
+        // Code Reactor Index
+        if (!include('src/CodeReactor.min.js')) {
+            include('src/CodeReactor.js');
+        }
+
+        //  Editor
+        if (!include('src/Editor/Editor.min.js')) {
+            include('src/Editor/Editor.js');
+        }
+
+        //  File
+        if (!include('src/File/File.min.js')) {
+            include('src/File/File.js');
+        }
+
+        //  Directory
+        if (!include('src/Directory/Directory.min.js')) {
+            include('src/Directory/Directory.js');
+        }
+
+        //  Meta
+        if (!include('src/Meta/Meta.min.js')) {
+            include('src/Meta/Meta.js');
+        }
+
+        //  Log
+        if (!include('src/Log/Log.min.js')) {
+            include('src/Log/Log.js');
+        }
+
+        //  Tools
+        if (!include('src/Tools/tools.min.js')) {
+            include('src/Tools/tools.js');
+        }
+
+        //  Git
+        if (!include('src/Tools/git.min.js')) {
+            include('src/Tools/git.js');
+        }
+
+        //  MD5hash
+        if (!include('src/Tools/MD5hash.js')) {
+            include('src/Tools/MD5hash.js');
+        }
+
+        //  SoundPlayer
+        if (!include('src/sound/sdk-3.0.0.min.js')) {
+            include('src/sound/sdk-3.0.0.js');
+        }
+        if (!include('src/sound/SoundPlayer.min.js')) {
+            include('src/sound/SoundPlayer.js');
+        }
+
+        if (!include('src/mode/glsl.min.js')) {
+            include('src/mode/glsl.js');
+        }
+
+    </script>
+
     <!-- GLSL Canvas -->
     <script src="src/GlslCanvas/GlslCanvas.min.js"></script>
-
-    <!--  Code Reactor Index  -->
-    <script src="src/Code%20Reactor.js"></script>
-
-    <!-- Editor -->
-    <script src="src/Editor/Editor.js"></script>
-
-    <!-- File -->
-    <script src="src/File/File.js"></script>
-
-    <!-- Directory -->
-    <script src="src/Directory/Directory.js"></script>
-
-    <!-- Meta -->
-    <script src="src/Meta/Meta.js"></script>
-
-    <!-- Log -->
-    <script src="src/Log/Log.js"></script>
-
-    <!-- Tools -->
-    <script src="src/Tools/tools.js"></script>
-    <script src="src/Tools/git.js"></script>
-    <!-- Git -->
-    <script src="src/Tools/MD5hash.js"></script>
-    <!-- MD5 hash generator -->
-
-    <!-- SoundPlayer -->
-    <script src="src/sound/sdk-3.0.0.js"></script>
-    <script src="src/sound/SoundPlayer.js"></script>
-
 
 </body>
 
