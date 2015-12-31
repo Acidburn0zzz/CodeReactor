@@ -29,7 +29,6 @@ function detectMode(filepath) {
 }
 
 function beautify(path) {
-    var results = [];
 
     fs.readdirSync(path).forEach(function (file) {
 
@@ -39,33 +38,28 @@ function beautify(path) {
         if (stat && stat.isDirectory()) {
             beautify(file);
         } else if (!isBinaryFile.sync(file)) {
-            results.push(file);
+            var data = fs.readFileSync(file, 'utf8').toString();
+
+            if (detectMode(file) === 'js' && file.slice(-7) !== ".min.js") {
+                fs.writeFileSync(file, beautify_js(data), 'utf8');
+                console.log(getTime() + colors.green(" Beautified " + file));
+            } else if (detectMode(file) === 'css' && file.slice(-8) !== ".min.css") {
+                fs.writeFileSync(file, beautify_css(data), 'utf8');
+                console.log(getTime() + colors.cyan(" Beautified " + file));
+            } else if (detectMode(file) === 'html') {
+                fs.writeFileSync(file, beautify_html(data), 'utf8');
+                console.log(getTime() + colors.gray(" Beautified " + file));
+            } else {
+                console.warn(getTime() + colors.red(" Couldn't beautify " + file));
+            }
         }
     });
 
-
-    for (var i = 0; i < results.length; i++) {
-        var data = fs.readFileSync(results[i], 'utf8').toString();
-
-        if (detectMode(results[i]) === 'js') {
-            fs.writeFileSync(results[i], beautify_js(data), 'utf8');
-            console.log(getTime() + colors.green(" Beautified " + results[i]));
-        } else if (detectMode(results[i]) === 'css') {
-            fs.writeFileSync(results[i], beautify_css(data), 'utf8');
-            console.log(getTime() + colors.green(" Beautified " + results[i]));
-
-        } else if (detectMode(results[i]) === 'html') {
-            fs.writeFileSync(results[i], beautify_html(data), 'utf8');
-            console.log(getTime() + colors.green(" Beautified " + results[i]));
-        } else {
-            console.warn(getTime() + colors.yellow(" Couldn't beautify " + results[i]));
-        }
-    }
 }
 
 var data = fs.readFileSync('index.html', 'utf8').toString();
 fs.writeFileSync('index.html', beautify_html(data), 'utf8');
-console.log(getTime() + colors.green(" Beautified " + 'index.html'));
+console.log(getTime() + colors.gray(" Beautified " + 'index.html'));
 
 beautify('src');
 beautify('css');
