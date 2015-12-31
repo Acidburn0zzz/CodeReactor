@@ -14,7 +14,7 @@ ___
 ### How to build
 1. `npm install -g grunt-cli`
 2. `npm install`
-3. `grunt`
+3. `npm run build`
 
 ### Known Issues
 1. Win64 app is crashing regularly when using "SoundPlayer" cause `ffmpegsumo.dll` is broken.
