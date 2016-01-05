@@ -371,6 +371,12 @@
     \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     -->
 
+    <!--  Soundcloud SDK  -->
+    <script src="src/sound/sdk-3.0.0.min.js"></script>
+
+    <!-- GLSL Canvas -->
+    <script src="src/GlslCanvas/GlslCanvas.min.js"></script>
+
     <script>
         var fs = require('fs');
 
@@ -435,21 +441,16 @@
         }
 
         //  SoundPlayer
-        if (!include('src/sound/sdk-3.0.0.min.js')) {
-            include('src/sound/sdk-3.0.0.js');
-        }
         if (!include('src/sound/SoundPlayer.min.js')) {
             include('src/sound/SoundPlayer.js');
         }
 
+        // CodeMirror GLSL mode
         if (!include('src/mode/glsl.min.js')) {
             include('src/mode/glsl.js');
         }
 
     </script>
-
-    <!-- GLSL Canvas -->
-    <script src="src/GlslCanvas/GlslCanvas.min.js"></script>
 
 </body>
 

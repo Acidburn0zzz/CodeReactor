@@ -1,6 +1,7 @@
 {
     "name": "Code_Reactor",
     "homepage": "http://mourtz.github.io/CodeReactor",
+    "description": "Hackable to the core homegrown code editor.",
     "bugs": "https://github.com/Mourtz/CodeReactor/issues",
     "repository": {
         "type": "git",

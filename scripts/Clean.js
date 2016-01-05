@@ -25,7 +25,7 @@ function clean(path) {
                     console.log(e);
                 }
 
-                if (dir !== 'GlslCanvas') {
+                if (dir !== 'GlslCanvas' && dir !== 'sound') {
                     try {
                         fs.unlinkSync(file);
                         var filename = file.split('/');
