@@ -19,13 +19,10 @@ function clean(path) {
         } else if (!isBinaryFile.sync(file)) {
             if (file.slice(-7) === ".min.js" || file.slice(-7) === ".js.map" || file.slice(-8) === ".min.css") {
                 var dir = file.split('/');
-                try {
-                    dir = dir[dir.length - 2];
-                } catch (e) {
-                    console.log(e);
-                }
+                var filename = dir[dir.length - 1];
+                dir = dir[dir.length - 2];
 
-                if (dir !== 'GlslCanvas' && dir !== 'sound') {
+                if (dir !== 'GlslCanvas' && filename !== 'sdk-3.0.0.min.js') {
                     try {
                         fs.unlinkSync(file);
                         var filename = file.split('/');
