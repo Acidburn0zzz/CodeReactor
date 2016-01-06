@@ -137,7 +137,16 @@ var Code_Reactor = {
 
         Code_Reactor.Git.set();
 
-        Code_Reactor.openFolder(this.projectPath);
+        try {
+            var stat = Code_Reactor.fs.lstatSync(this.projectPath);
+            if (stat && stat.isDirectory()) {
+                Code_Reactor.openFolder(this.projectPath);
+            }
+        } catch (e) {
+            console.warn(this.projectPath + " doesn't exist anymore!");
+            console.log('Loading default "projectPath"');
+            Code_Reactor.openFolder(this.appRoot);
+        }
     },
 
     updateConfig: function() {
@@ -457,7 +466,7 @@ var Code_Reactor = {
         filesystem.readdirSync(path).forEach(function(file) {
 
             file = path + '/' + file;
-            var stat = filesystem.statSync(file);
+            var stat = filesystem.lstatSync(file);
 
             if (stat && stat.isDirectory()) {
                 results.push({
