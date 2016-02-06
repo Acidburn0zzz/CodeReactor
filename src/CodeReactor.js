@@ -681,7 +681,7 @@ window.onload = function() {
         console.error(e);
     }
 
-    Code_Reactor.gui.Window.get().on('focus', function () {
+    Code_Reactor.gui.Window.get().on('focus', function() {
         Code_Reactor.openFolder(Code_Reactor.projectPath);
     });
 };

@@ -395,60 +395,147 @@
             }
         }
 
-        // Code Reactor Index
-        if (!include('src/CodeReactor.min.js')) {
-            include('src/CodeReactor.js');
-        }
+        var p1 = new Promise(
+            function(resolve, reject) {
+                // Code Reactor Index
+                if (!include('src/CodeReactor.min.js')) {
+                    include('src/CodeReactor.js');
+                }
+                resolve();
+            }
+        );
 
-        //  Editor
-        if (!include('src/Editor/Editor.min.js')) {
-            include('src/Editor/Editor.js');
-        }
+        p1.then(
+            function() {
+                var p2 = new Promise(
+                    function(resolve, reject) {
+                        //  Editor
+                        if (!include('src/Editor/Editor.min.js')) {
+                            include('src/Editor/Editor.js');
+                        }
+                        resolve();
+                    }
+                );
+                p2.then(
+                    function() {
+                        var p3 = new Promise(
+                            function(resolve, reject) {
+                                //  File
+                                if (!include('src/File/File.min.js')) {
+                                    include('src/File/File.js');
+                                }
+                                resolve();
+                            }
+                        );
+                        p3.then(
+                            function() {
+                                var p4 = new Promise(
+                                    function(resolve, reject) {
+                                        //  Directory
+                                        if (!include('src/Directory/Directory.min.js')) {
+                                            include('src/Directory/Directory.js');
+                                        }
+                                        resolve();
+                                    }
+                                );
+                                p4.then(
+                                    function() {
+                                        var p5 = new Promise(
+                                            function(resolve, reject) {
+                                                //  Meta
+                                                if (!include('src/Meta/Meta.min.js')) {
+                                                    include('src/Meta/Meta.js');
+                                                }
+                                                resolve();
+                                            }
+                                        );
+                                        p5.then(
+                                            function() {
+                                                var p6 = new Promise(
+                                                    function(resolve, reject) {
+                                                        //  Log
+                                                        if (!include('src/Log/Log.min.js')) {
+                                                            include('src/Log/Log.js');
+                                                        }
+                                                        resolve();
+                                                    }
+                                                );
+                                                p6.then(
+                                                    function() {
+                                                        var p7 = new Promise(
+                                                            function(resolve, reject) {
+                                                                //  Tools
+                                                                if (!include('src/Tools/tools.min.js')) {
+                                                                    include('src/Tools/tools.js');
+                                                                }
+                                                                resolve();
+                                                            }
+                                                        );
+                                                        p7.then(
+                                                            function() {
+                                                                var p8 = new Promise(
+                                                                    function(resolve, reject) {
+                                                                        //  Git
+                                                                        if (!include('src/Tools/git.min.js')) {
+                                                                            include('src/Tools/git.js');
+                                                                        }
+                                                                        resolve();
+                                                                    }
+                                                                );
+                                                                p8.then(
+                                                                    function() {
+                                                                        var p9 = new Promise(
+                                                                            function(resolve, reject) {
+                                                                                //  MD5hash
+                                                                                if (!include('src/Tools/MD5hash.js')) {
+                                                                                    include('src/Tools/MD5hash.js');
+                                                                                }
+                                                                                resolve();
+                                                                            }
+                                                                        );
+                                                                        p9.then(
+                                                                            function() {
+                                                                                var p10 = new Promise(
+                                                                                    function(resolve, reject) {
+                                                                                        //  SoundPlayer
+                                                                                        if (!include('src/sound/SoundPlayer.min.js')) {
+                                                                                            include('src/sound/SoundPlayer.js');
+                                                                                        }
+                                                                                        resolve();
+                                                                                    }
+                                                                                );
+                                                                                p10.then(
+                                                                                    function() {
+                                                                                        var p11 = new Promise(
+                                                                                            function(resolve, reject) {
+                                                                                                // CodeMirror GLSL mode
+                                                                                                if (!include('src/mode/glsl.min.js')) {
+                                                                                                    include('src/mode/glsl.js');
+                                                                                                }
+                                                                                                resolve();
+                                                                                            }
+                                                                                        );
+                                                                                    }
+                                                                                );
+                                                                            }
+                                                                        );
+                                                                    }
+                                                                );
+                                                            }
+                                                        );
+                                                    }
+                                                );
+                                            }
+                                        );
+                                    }
+                                );
+                            }
+                        );
+                    }
+                );
+            }
+        );
 
-        //  File
-        if (!include('src/File/File.min.js')) {
-            include('src/File/File.js');
-        }
-
-        //  Directory
-        if (!include('src/Directory/Directory.min.js')) {
-            include('src/Directory/Directory.js');
-        }
-
-        //  Meta
-        if (!include('src/Meta/Meta.min.js')) {
-            include('src/Meta/Meta.js');
-        }
-
-        //  Log
-        if (!include('src/Log/Log.min.js')) {
-            include('src/Log/Log.js');
-        }
-
-        //  Tools
-        if (!include('src/Tools/tools.min.js')) {
-            include('src/Tools/tools.js');
-        }
-
-        //  Git
-        if (!include('src/Tools/git.min.js')) {
-            include('src/Tools/git.js');
-        }
-
-        //  MD5hash
-        if (!include('src/Tools/MD5hash.js')) {
-            include('src/Tools/MD5hash.js');
-        }
-
-        //  SoundPlayer
-        if (!include('src/sound/SoundPlayer.min.js')) {
-            include('src/sound/SoundPlayer.js');
-        }
-
-        // CodeMirror GLSL mode
-        if (!include('src/mode/glsl.min.js')) {
-            include('src/mode/glsl.js');
-        }
     </script>
 
 </body>
