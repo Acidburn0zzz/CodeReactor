@@ -680,6 +680,10 @@ window.onload = function() {
     } catch (e) {
         console.error(e);
     }
+
+    Code_Reactor.gui.Window.get().on('focus', function () {
+        Code_Reactor.openFolder(Code_Reactor.projectPath);
+    });
 };
 
 // window onresize event
