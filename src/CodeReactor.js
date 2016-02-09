@@ -399,6 +399,16 @@ var Code_Reactor = {
         this.file[this.editor[0].file].save(as);
     },
 
+    /**
+     * Save all loaded files
+     * @method Code_Reactor.saveAllFiles
+     */
+    saveAllFiles: function() {
+        for (var i = 0; i < this.file.length; i++) {
+            this.file[i].save(false);
+        }
+    },
+
     billboard: null,
 
     /**
@@ -521,6 +531,16 @@ var Code_Reactor = {
         type: "keydown",
         active: function() {
             Code_Reactor.saveFile(false);
+        },
+        failed: function(msg) {
+            // :(, fail to register the |key| or couldn't parse the |key|.
+            console.error(msg);
+        }
+    }, {
+        key: "Alt+Ctrl+s",
+        type: "keydown",
+        active: function() {
+            Code_Reactor.saveAllFiles();
         },
         failed: function(msg) {
             // :(, fail to register the |key| or couldn't parse the |key|.
@@ -681,8 +701,14 @@ window.onload = function() {
         console.error(e);
     }
 
+    // Reload all files when editor gets focus
     Code_Reactor.gui.Window.get().on('focus', function() {
         Code_Reactor.openFolder(Code_Reactor.projectPath);
+    });
+
+    // Save all files when editor loses focus
+    Code_Reactor.gui.Window.get().on('blur', function() {
+        Code_Reactor.saveAllFiles();
     });
 };
 
