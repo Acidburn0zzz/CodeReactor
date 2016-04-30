@@ -5,68 +5,104 @@
 
 /**
  *
- * @class Code_Reactor.Meta
+ * @class Code_Reactor.Log
  * @constructor
- * @param {string} name - Meta file's name (*optional)
- * @param {string} filepath - Meta file's global filepath (*required)
- * @param {Array<object>} content - viewport to render the file on (*optional)
+ * @param {string} name - name of log file (*optional)
+ * @param {string} filepath - the global filepath of the log file (*optional)
+ * @param {number} maxSize - max size of log file in bytes (*optional)
  */
-Code_Reactor.Meta = function(name, filepath, content) {
+Log = function (nCode_Reactor, ame, filepath, maxSize) {
 
-    this.name = "unnamed";
+    global.Code_Reactor = Code_Reactor;
+
+    this.name = "uunnamed";
     if (name !== undefined) {
         this.name = name;
     }
 
-    this.filepath = null;
-    if (filepath === undefined) {
-        console.error("Forgot to give a filepath!");
+    // max size in bytes
+    this.maxSize = 1024;
+    if (maxSize !== undefined) {
+        this.maxSize = maxSize;
     }
 
-    this.content = null;
-    if (content !== undefined) {
-        this.content = content;
+    this.filepath = Code_Reactor.appRoot + "\\log\\console.log";
+    if (filepath !== undefined) {
+        this.filepath = filepath;
     }
 
-    this.instance = Code_Reactor.meta.length;
+    this.encoding = 'utf8';
 
-    this.init();
+    this.enabled = false;
+
+    this.instance = Code_Reactor.log.length;
+
+    this.d = new Date();
 };
 
-Code_Reactor.Meta.prototype = {
-
-    init: function() {
+Log.prototype = {
+    log: function (type, value) {
         var fs = Code_Reactor.fs;
-        var jsonfile = Code_Reactor.jsonfile;
+        var fileRoot = this.filepath.trim().split("\\");
+        fileRoot = fileRoot[fileRoot.length - 2];
+
+        value = type + " [" + this.getDMYString() + ":" + this.getHMSString() + "] " + value + "\n";
+        console.log(value);
+
+        if (!this.enabled) return null;
+
+        try {
+            var stats = fs.lstatSync(fileRoot);
+        } catch (e) {
+            fs.mkdirSync(fileRoot);
+        }
 
         try {
             var stats = fs.lstatSync(this.filepath);
 
-            if (!Code_Reactor.isBinaryFile.sync(this.filepath) && stats.isFile()) {
-                this.content = jsonfile.readFileSync(this.filepath);
+            if (stats.isFile()) {
+                if (this.hasReachedMaxSize()) {
+                    fs.writeFileSync(this.filepath, value, this.encoding);
+                } else {
+                    fs.appendFileSync(this.filepath, value, this.encoding);
+                }
             }
         } catch (e) {
-            if (this.content !== null && typeof(this.content) === "object" && this.filepath !== null) {
-                jsonfile.writeFileSync(this.filepath, this.content);
-            }
+            var jsonfile = Code_Reactor.jsonfile;
+            value = "#Version: " + jsonfile.readFileSync(Code_Reactor.appRoot + "\\package.json").version +
+                "\n#OS: " + Code_Reactor.os.platform() + " " + Code_Reactor.os.release() +
+                "\n#Mem: total: " + Code_Reactor.os.totalmem() + " | avail: " + Code_Reactor.os.freemem() +
+                "\n" + value;
+            fs.writeFileSync(this.filepath, value, this.encoding);
         }
     },
 
-    write: function(content, filepath) {
-        var jsonfile = Code_Reactor.jsonfile;
+    hasReachedMaxSize: function () {
+        var fs = Code_Reactor.fs;
+        var filepath = this.filepath;
+        var maxSize = this.maxSize;
 
-        var fp = this.filepath;
-        if (filepath !== undefined) {
-            fp = filepath;
-        }
+        fs.watch(filepath, function (curr, prev) {
+            fs.stat(filepath, function (err, stats) {
+                return (stats.size > maxSize);
+            });
+        });
 
-        var cn = this.content;
-        if (content !== undefined) {
-            cn = content;
-        }
+        return false;
+    },
 
-        if (content !== null && typeof(content) === "object" && fp !== null) {
-            jsonfile.writeFileSync(fp, content);
-        }
+    getDMYString: function () {
+        return (this.d.getDay() + "/" +
+            this.d.getMonth() + "/" +
+            this.d.getFullYear());
+    },
+
+    getHMSString: function () {
+        return (this.d.getHours() + ":" +
+            this.d.getMinutes() + ":" +
+            this.d.getSeconds());
     }
+
 };
+
+module.exports = Log;
