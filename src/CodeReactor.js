@@ -715,8 +715,7 @@ function render_all_GlslCanvas() {
     }
 }
 
-// Emitted when the window is fully loaded
-Code_Reactor.gui.Window.get().on('loaded', function () {
+window.onload = function () {
 
     // try {
     //     Code_Reactor.SoundPlayer.init();
@@ -736,7 +735,7 @@ Code_Reactor.gui.Window.get().on('loaded', function () {
     Code_Reactor.gui.Window.get().on('blur', function () {
         Code_Reactor.saveAllFiles();
     });
-});
+}
 
 // window onresize event
 window.onresize = function () {

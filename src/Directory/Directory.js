@@ -36,7 +36,7 @@ Directory = function (Code_Reactor, filepath, parent, space) {
         console.warn("Forgot to pass 'parent' parameter! \n Default value ('workplace') 'll be used");
     }
 
-    this.id = 'ofolder' + Code_Reactor.directory.length;
+    this.id = 'ofolder' + this.instance;
 
     this.toAppend = true;
 
@@ -62,8 +62,6 @@ Directory.prototype = {
     },
 
     toggle: function () {
-
-        var x = '#ofolder' + this.instance.toString();
 
         if (this.files === null) {
             var pp = makeid(10);
@@ -91,7 +89,7 @@ Directory.prototype = {
             document.getElementById(this.id).innerHTML += inject;
 
             for (var i = 0; i < dirs.length; i++) {
-                var dir = new Code_Reactor.Directory(dirs[i], pp, this._space + 2);
+                var dir = new Code_Reactor.Directory(Code_Reactor, dirs[i], pp, this._space + 2);
                 dir.init();
                 Code_Reactor.directory.push(dir);
             }
@@ -100,7 +98,7 @@ Directory.prototype = {
         var zz = document.getElementsByName('dir' + this.instance)[0];
         this.toggled = !this.toggled;
         zz.id = this.getIcon();
-        $(x + ' > li span').parent().find('ul').toggle();
+        $('#' + this.id + ' > li span').parent().find('ul').toggle();
     },
 
     close: function () {
