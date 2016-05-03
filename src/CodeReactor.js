@@ -7,9 +7,10 @@ global.document = window.document;
 global.navigator = window.navigator;
 global.$ = $;
 global.CodeMirror = CodeMirror;
+global.SC = SC;
 
 // @namespace Coder Reactor
-var Code_Reactor = Code_Reactor || {
+var Code_Reactor = {
 
     fs: require('fs'),
 
@@ -19,30 +20,32 @@ var Code_Reactor = Code_Reactor || {
 
     gui: require('nw.gui'),
 
-    appRoot: require('app-root-path').toString(),
+    path: require('path'),
+
+    appRoot: undefined,
 
     isBinaryFile: require("isbinaryfile"),
 
     shell: require('shelljs'),
 
     // @class Editor
-    Editor: require('./src/Editor/Editor.js'),
+    Editor: undefined,
     // @class File
-    File: require('./src/File/File.js'),
+    File: undefined,
     // @class Directory
-    Directory: require('./src/Directory/Directory.js'),
+    Directory: undefined,
     // @class Meta
-    Meta: require('./src/Meta/Meta.js'),
+    Meta: undefined,
     // @class Log
-    Log: require('./src/Log/Log.js'),
+    Log: undefined,
     // @class SoundPlayer
-    //SoundPlayer: require('./src/sound/SoundPlayer.js'),
+    SoundPlayer: undefined,
     // @class Git
-    Git: require('./src/Tools/git.js'),
+    Git: undefined,
 
     projectName: "unnamed",
 
-    dirSeperator: null,
+    dirSeperator: undefined,
 
     CodeMirrorOptions: {
         tabSize: 4,
@@ -69,25 +72,6 @@ var Code_Reactor = Code_Reactor || {
      * @method Code_Reactor.init
      */
     init: function () {
-        switch (this.os.platform()) {
-            case 'win32':
-                this.dirSeperator = "\\";
-                $("#dirDialog").attr("nwworkingdir", "C:\\");
-                break;
-            case 'linux':
-                this.dirSeperator = "/";
-                $("#dirDialog").attr("nwworkingdir", "/");
-                break;
-            case 'freebsd':
-                //@ToDO
-                break;
-            case 'darwin':
-                //@ToDO
-                break;
-            default:
-                $("#dirDialog").attr("nwworkingdir", this.appRoot);
-                break;
-        }
 
         ////////////////////////////////////////////
         // CONFIGURATION
@@ -497,7 +481,7 @@ var Code_Reactor = Code_Reactor || {
      * @method Code_Reactor._getAllFilesFromFolder
      * @returns {Array<string>} - Each files path
      */
-    _getAllFilesFromFolder: function (path) {
+    _getAllFilesFromFolder: function (path, filesOnly) {
         var filesystem = Code_Reactor.fs;
         var results = [];
 
@@ -507,9 +491,13 @@ var Code_Reactor = Code_Reactor || {
             var stat = filesystem.lstatSync(file);
 
             if (stat && stat.isDirectory()) {
-                results.push({
-                    dir: file
-                });
+                if (filesOnly) {
+                    results.concat(Code_Reactor._getAllFilesFromFolder(file));
+                } else {
+                    results.push({
+                        dir: file
+                    });
+                }
             } else if (!Code_Reactor.isBinaryFile.sync(file)) {
                 results.push({
                     file: file
@@ -705,6 +693,43 @@ var Code_Reactor = Code_Reactor || {
 };
 
 Code_Reactor.projectPath = Code_Reactor.appRoot;
+Code_Reactor.appRoot = Code_Reactor.path.resolve();
+
+switch (Code_Reactor.os.platform()) {
+    case 'win32':
+        Code_Reactor.dirSeperator = "\\";
+        $("#dirDialog").attr("nwworkingdir", "C:\\");
+        break;
+    case 'linux':
+        Code_Reactor.dirSeperator = "/";
+        $("#dirDialog").attr("nwworkingdir", "/");
+        break;
+    case 'freebsd':
+        Code_Reactor.dirSeperator = "/";
+        break;
+    case 'darwin':
+        Code_Reactor.dirSeperator = "/";
+        break;
+    default:
+        $("#dirDialog").attr("nwworkingdir", Code_Reactor.appRoot);
+        break;
+}
+
+// @class Editor
+Code_Reactor.Editor = require(Code_Reactor.appRoot + '/src/Editor/Editor.js');
+// @class File
+Code_Reactor.File = require(Code_Reactor.appRoot + '/src/File/File.js');
+// @class Directory
+Code_Reactor.Directory = require(Code_Reactor.appRoot + '/src/Directory/Directory.js');
+// @class Meta
+Code_Reactor.Meta = require(Code_Reactor.appRoot + '/src/Meta/Meta.js');
+// @class Log
+Code_Reactor.Log = require(Code_Reactor.appRoot + '/src/Log/Log.js');
+// @class SoundPlayer
+Code_Reactor.SoundPlayer = require(Code_Reactor.appRoot + '/src/sound/SoundPlayer.js');
+Code_Reactor.SoundPlayer = new Code_Reactor.SoundPlayer(Code_Reactor);
+// @class Git
+Code_Reactor.Git = require(Code_Reactor.appRoot + '/src/Tools/git.js');
 
 function render_all_GlslCanvas() {
     if (Code_Reactor.isGlslModeOn) {
@@ -717,11 +742,11 @@ function render_all_GlslCanvas() {
 
 window.onload = function () {
 
-    // try {
-    //     Code_Reactor.SoundPlayer.init();
-    // } catch (e) {
-    //     console.error(e);
-    // }
+     try {
+         Code_Reactor.SoundPlayer.init();
+     } catch (e) {
+         console.error(e);
+     }
 
     Code_Reactor.init();
 

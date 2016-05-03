@@ -31,7 +31,6 @@
         "start": "nw ."
     },
     "dependencies": {
-        "app-root-path": "^1.2.0",
         "bootstrap": "^3.3.5",
         "codemirror": "^5.14.2",
         "colors": "^1.1.2",
