@@ -396,7 +396,7 @@ var Code_Reactor = {
         }
 
         if (this.directory.length > 0) {
-            for (var i = 0; i < this.directory.length; i++) {
+            for (i = 0; i < this.directory.length; i++) {
                 this.directory[i].close();
             }
             this.directory = [];
@@ -698,11 +698,11 @@ Code_Reactor.appRoot = Code_Reactor.path.resolve();
 switch (Code_Reactor.os.platform()) {
     case 'win32':
         Code_Reactor.dirSeperator = "\\";
-        $("#dirDialog").attr("nwworkingdir", "C:\\");
+        //$("#dirDialog").attr("nwworkingdir", "C:\\");
         break;
     case 'linux':
         Code_Reactor.dirSeperator = "/";
-        $("#dirDialog").attr("nwworkingdir", "/");
+        //$("#dirDialog").attr("nwworkingdir", "/");
         break;
     case 'freebsd':
         Code_Reactor.dirSeperator = "/";
@@ -741,12 +741,11 @@ function render_all_GlslCanvas() {
 }
 
 window.onload = function () {
-
-     try {
-         Code_Reactor.SoundPlayer.init();
-     } catch (e) {
-         console.error(e);
-     }
+    try {
+        Code_Reactor.SoundPlayer.init();
+    } catch (e) {
+        console.error(e);
+    }
 
     Code_Reactor.init();
 
@@ -760,7 +759,7 @@ window.onload = function () {
     Code_Reactor.gui.Window.get().on('blur', function () {
         Code_Reactor.saveAllFiles();
     });
-}
+};
 
 // window onresize event
 window.onresize = function () {

@@ -3,7 +3,7 @@
  * @license     {@link http://opensource.org/licenses/MIT|MIT License}
  */
 
-Git = function (Code_Reactor) {
+var Git = function (Code_Reactor) {
 
     global.Code_Reactor = Code_Reactor;
 

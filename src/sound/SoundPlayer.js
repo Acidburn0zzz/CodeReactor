@@ -3,7 +3,7 @@
  * @license     {@link http://opensource.org/licenses/MIT|MIT License}
  */
 
-SoundPlayer = function (Code_Reactor) {
+var SoundPlayer = function (Code_Reactor) {
 
     global.Code_Reactor = Code_Reactor;
 

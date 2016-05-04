@@ -10,7 +10,7 @@
  * @param {string} filepath - File's global filepath (*optional)
  * @param {number} viewport - viewport to render the file on (*required)
  */
-File = function (Code_Reactor, filepath, viewport) {
+var File = function (Code_Reactor, filepath, viewport) {
 
     global.Code_Reactor = Code_Reactor;
 

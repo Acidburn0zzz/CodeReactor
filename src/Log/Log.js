@@ -11,7 +11,7 @@
  * @param {string} filepath - the global filepath of the log file (*optional)
  * @param {number} maxSize - max size of log file in bytes (*optional)
  */
-Log = function (Code_Reactor, name, filepath, maxSize) {
+var Log = function (Code_Reactor, name, filepath, maxSize) {
 
     global.Code_Reactor = Code_Reactor;
 

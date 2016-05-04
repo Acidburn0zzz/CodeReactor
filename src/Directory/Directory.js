@@ -11,7 +11,7 @@
  * @param {string} parent - Directory's parent element
  * @param {number} space - Tab space
  */
-Directory = function (Code_Reactor, filepath, parent, space) {
+var Directory = function (Code_Reactor, filepath, parent, space) {
 
     global.Code_Reactor = Code_Reactor;
 

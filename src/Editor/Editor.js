@@ -12,7 +12,7 @@
  * @param {string} id - text area id *
  * @param {Array<object>} args - CodeMirror args (*optional)
  */
-Editor = function(Code_Reactor, width, height, id, args) {
+var Editor = function(Code_Reactor, width, height, id, args) {
 
     global.Code_Reactor = Code_Reactor;
 
