@@ -3,6 +3,12 @@
  * @license     {@link http://opensource.org/licenses/MIT|MIT License}
  */
 
+global.document = window.document;
+global.navigator = window.navigator;
+global.$ = $;
+global.CodeMirror = CodeMirror;
+global.SC = SC;
+
 // @namespace Coder Reactor
 var Code_Reactor = {
 
@@ -14,15 +20,32 @@ var Code_Reactor = {
 
     gui: require('nw.gui'),
 
-    appRoot: require('app-root-path').toString(),
+    path: require('path'),
+
+    appRoot: undefined,
 
     isBinaryFile: require("isbinaryfile"),
 
     shell: require('shelljs'),
 
+    // @class Editor
+    Editor: undefined,
+    // @class File
+    File: undefined,
+    // @class Directory
+    Directory: undefined,
+    // @class Meta
+    Meta: undefined,
+    // @class Log
+    Log: undefined,
+    // @class SoundPlayer
+    SoundPlayer: undefined,
+    // @class Git
+    Git: undefined,
+
     projectName: "unnamed",
 
-    dirSeperator: null,
+    dirSeperator: undefined,
 
     CodeMirrorOptions: {
         tabSize: 4,
@@ -48,26 +71,7 @@ var Code_Reactor = {
      * Initialize Code Reactor
      * @method Code_Reactor.init
      */
-    init: function() {
-        switch (this.os.platform()) {
-            case 'win32':
-                this.dirSeperator = "\\";
-                $("#dirDialog").attr("nwworkingdir", "C:\\");
-                break;
-            case 'linux':
-                this.dirSeperator = "/";
-                $("#dirDialog").attr("nwworkingdir", "/");
-                break;
-            case 'freebsd':
-                //@ToDO
-                break;
-            case 'darwin':
-                //@ToDO
-                break;
-            default:
-                $("#dirDialog").attr("nwworkingdir", this.appRoot);
-                break;
-        }
+    init: function () {
 
         ////////////////////////////////////////////
         // CONFIGURATION
@@ -99,16 +103,18 @@ var Code_Reactor = {
             this.updateConfig();
         }
 
+
+        Code_Reactor.git = new Code_Reactor.Git(this);
         ////////////////////////////////////////////
         // CODE REACTOR LOG FILE(S)
         ////////////////////////////////////////////
-        Code_Reactor.log.push(new Code_Reactor.Log("Activity", Code_Reactor.appRoot + "\\log\\activity.log", 1024));
+        Code_Reactor.log.push(new Code_Reactor.Log(this, "Activity", Code_Reactor.appRoot + "\\log\\activity.log", 1024));
         console.log("Starting App...");
 
         ////////////////////////////////////////////
         // CODE REACTOR EDITOR #0
         ////////////////////////////////////////////
-        Code_Reactor.editor.push(new Code_Reactor.Editor(window.innerWidth - 250, window.innerHeight - 72, 'code', Code_Reactor.CodeMirrorOptions));
+        Code_Reactor.editor.push(new Code_Reactor.Editor(this, window.innerWidth - 250, window.innerHeight - 72, 'code', Code_Reactor.CodeMirrorOptions));
 
         Code_Reactor.editor[0].init();
 
@@ -126,7 +132,7 @@ var Code_Reactor = {
 
         // Register all shortcuts
         console.log("Shorcuts have been registered!");
-        Code_Reactor.shortcuts.forEach(function(value) {
+        Code_Reactor.shortcuts.forEach(function (value) {
             /* Register global hotkey */
             //Code_Reactor.gui.App.registerGlobalHotKey(new Code_Reactor.gui.Shortcut(value));
 
@@ -135,7 +141,7 @@ var Code_Reactor = {
 
         });
 
-        Code_Reactor.Git.set();
+        Code_Reactor.git.set();
 
         try {
             var stat = Code_Reactor.fs.lstatSync(this.projectPath);
@@ -149,7 +155,7 @@ var Code_Reactor = {
         }
     },
 
-    updateConfig: function() {
+    updateConfig: function () {
         var configPath = this.gui.App.dataPath + this.dirSeperator + "config.json";
 
         this.jsonfile.writeFileSync(configPath, {
@@ -165,7 +171,7 @@ var Code_Reactor = {
      * terminate application
      * @method Code_Reactor.terminate
      */
-    terminate: function() {
+    terminate: function () {
         //$("#terminate").attr('src', '../icons/tilebar/close_click.png');
         this.gui.App.quit();
     },
@@ -174,7 +180,7 @@ var Code_Reactor = {
      * minimize main window
      * @method Code_Reactor.minimize
      */
-    minimize: function() {
+    minimize: function () {
         //$("#minimize").attr('src', '../icons/tilebar/minimize_click.png');
         this.gui.Window.get().minimize();
     },
@@ -183,9 +189,15 @@ var Code_Reactor = {
      * toggle Fullscreen
      * @method Code_Reactor.toggleFullscreen
      */
-    toggleFullscreen: function() {
+    toggleFullscreen: function () {
         this.gui.Window.get().toggleFullscreen();
     },
+
+    /**
+     * Git Module
+     * @type {object}
+     */
+    git: undefined,
 
     /**
      * All currently open files
@@ -221,12 +233,12 @@ var Code_Reactor = {
      * Open terminal
      * @method Code_Reactor.openTerminal
      */
-    openTerminal: function() {
+    openTerminal: function () {
         var exec = require('child_process').exec;
 
         switch (this.os.platform()) {
             case 'win32':
-                exec('start cmd /T:8F /K "cd ' + Code_Reactor.projectPath + ' && title CodeReactor"', function(error, stdout, stderr) {
+                exec('start cmd /T:8F /K "cd ' + Code_Reactor.projectPath + ' && title CodeReactor"', function (error, stdout, stderr) {
                     console.log('stdout: ' + stdout);
                     console.log('stderr: ' + stderr);
                     if (error !== null) {
@@ -235,7 +247,7 @@ var Code_Reactor = {
                 });
                 break;
             case 'linux':
-                exec('uxterm -c "cd ' + Code_Reactor.projectPath + '"', function(error, stdout, stderr) {
+                exec('uxterm -c "cd ' + Code_Reactor.projectPath + '"', function (error, stdout, stderr) {
                     console.log('stdout: ' + stdout);
                     console.log('stderr: ' + stderr);
                     if (error !== null) {
@@ -259,8 +271,8 @@ var Code_Reactor = {
      * Create a new file
      * @method Code_Reactor.newFile
      */
-    newFile: function() {
-        this.file.push(new Code_Reactor.File(Code_Reactor.appRoot + this.dirSeperator + makeid(undefined, true), 0));
+    newFile: function () {
+        this.file.push(new Code_Reactor.File(this, Code_Reactor.appRoot + this.dirSeperator + makeid(undefined, true), 0));
         this.file[this.file.length - 1].new();
     },
 
@@ -268,35 +280,35 @@ var Code_Reactor = {
      * Create a new meta file
      * @method Code_Reactor.newMetaFile
      */
-    newMetaFile: function(name, filepath, content) {
-        this.meta.push(new Code_Reactor.Meta(name, filepath, content));
+    newMetaFile: function (name, filepath, content) {
+        this.meta.push(new Code_Reactor.Meta(this, name, filepath, content));
     },
 
     /**
      * Open new file
      * @method Code_Reactor.openFile
      */
-    openFile: function(path, append, close) {
+    openFile: function (path, append, close) {
         if (close !== undefined && close === true) {
             this.closeAll();
         }
 
-        var file = new Code_Reactor.File(path, 0);
+        var file = new Code_Reactor.File(this, path, 0);
         file.open(path, append);
         this.file.push(file);
 
         return file;
     },
 
-    openDir: function(path, parent, spaces) {
-        var dir = new Code_Reactor.Directory(path, parent, spaces);
+    openDir: function (path, parent, spaces) {
+        var dir = new Code_Reactor.Directory(this, path, parent, spaces);
         dir.init();
         this.directory.push(dir);
 
         return dir;
     },
 
-    closeDir: function(instance) {
+    closeDir: function (instance) {
         this.directory[instance].close();
     },
 
@@ -304,7 +316,7 @@ var Code_Reactor = {
      * Open folder
      * @method Code_Reactor.openFolder
      */
-    openFolder: function(path, close) {
+    openFolder: function (path, close) {
         var rr = null;
 
         if (path !== undefined) {
@@ -332,7 +344,7 @@ var Code_Reactor = {
         } else {
             var chooser = $('#dirDialog');
             chooser.unbind('change');
-            chooser.change(function(evt) {
+            chooser.change(function (evt) {
 
                 if (close === undefined || close === true) {
                     Code_Reactor.closeAll();
@@ -364,7 +376,7 @@ var Code_Reactor = {
      * Close file
      * @method Code_Reactor.close
      */
-    close: function(instance) {
+    close: function (instance) {
         if (this.file.length > 0) {
             this.file[instance].close();
             Code_Reactor.file.splice(instance, 1);
@@ -375,7 +387,7 @@ var Code_Reactor = {
      * Close all files
      * @method Code_Reactor.closeAll
      */
-    closeAll: function() {
+    closeAll: function () {
         if (this.file.length > 0) {
             for (var i = 0; i < this.file.length; i++) {
                 this.file[i].close();
@@ -395,7 +407,7 @@ var Code_Reactor = {
      * Save last used file
      * @method Code_Reactor.saveFile
      */
-    saveFile: function(as) {
+    saveFile: function (as) {
         this.file[this.editor[0].file].save(as);
     },
 
@@ -403,7 +415,7 @@ var Code_Reactor = {
      * Save all loaded files
      * @method Code_Reactor.saveAllFiles
      */
-    saveAllFiles: function() {
+    saveAllFiles: function () {
         for (var i = 0; i < this.file.length; i++) {
             this.file[i].save(false);
         }
@@ -420,7 +432,7 @@ var Code_Reactor = {
      * Toggle GLSL Mode ON or off
      * @method Code_Reactor.saveFile
      */
-    toggleGLSLMode: function(on) {
+    toggleGLSLMode: function (on) {
 
         this.isGlslModeOn = on;
 
@@ -454,7 +466,7 @@ var Code_Reactor = {
      * @method Code_Reactor.setProjectName
      * @param {Sting} dir - Projects root
      */
-    setProjectName: function(dir) {
+    setProjectName: function (dir) {
         var pp = dir.trim().split(this.dirSeperator);
         this.projectName = pp[pp.length - 1];
         this.projectPath = dir;
@@ -469,19 +481,23 @@ var Code_Reactor = {
      * @method Code_Reactor._getAllFilesFromFolder
      * @returns {Array<string>} - Each files path
      */
-    _getAllFilesFromFolder: function(path) {
+    _getAllFilesFromFolder: function (path, filesOnly) {
         var filesystem = Code_Reactor.fs;
         var results = [];
 
-        filesystem.readdirSync(path).forEach(function(file) {
+        filesystem.readdirSync(path).forEach(function (file) {
 
             file = path + '/' + file;
             var stat = filesystem.lstatSync(file);
 
             if (stat && stat.isDirectory()) {
-                results.push({
-                    dir: file
-                });
+                if (filesOnly) {
+                    results.concat(Code_Reactor._getAllFilesFromFolder(file));
+                } else {
+                    results.push({
+                        dir: file
+                    });
+                }
             } else if (!Code_Reactor.isBinaryFile.sync(file)) {
                 results.push({
                     file: file
@@ -499,176 +515,176 @@ var Code_Reactor = {
     shortcuts: [{
         key: "ctrl+o",
         type: "keydown",
-        active: function() {
+        active: function () {
             Code_Reactor.openFile();
         },
-        failed: function(msg) {
+        failed: function (msg) {
             // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
     }, {
         key: "ctrl+n",
         type: "keydown",
-        active: function() {
+        active: function () {
             Code_Reactor.newFile();
         },
-        failed: function(msg) {
+        failed: function (msg) {
             // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
     }, {
         key: "ctrl+shift+s",
         type: "keydown",
-        active: function() {
+        active: function () {
             Code_Reactor.saveFile(true);
         },
-        failed: function(msg) {
+        failed: function (msg) {
             // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
     }, {
         key: "ctrl+s",
         type: "keydown",
-        active: function() {
+        active: function () {
             Code_Reactor.saveFile(false);
         },
-        failed: function(msg) {
+        failed: function (msg) {
             // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
     }, {
         key: "Alt+Ctrl+s",
         type: "keydown",
-        active: function() {
+        active: function () {
             Code_Reactor.saveAllFiles();
         },
-        failed: function(msg) {
+        failed: function (msg) {
             // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
     }, {
         key: "ctrl+shift+o",
         type: "keydown",
-        active: function() {
+        active: function () {
             Code_Reactor.openFolder();
         },
-        failed: function(msg) {
+        failed: function (msg) {
             // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
     }, {
         key: "ctrl+w",
         type: "keydown",
-        active: function() {
+        active: function () {
             Code_Reactor.close(Code_Reactor.editor[0].file);
         },
-        failed: function(msg) {
+        failed: function (msg) {
             // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
     }, {
         key: "ctrl+shift+w",
         type: "keydown",
-        active: function() {
+        active: function () {
             Code_Reactor.closeAll();
         },
-        failed: function(msg) {
+        failed: function (msg) {
             // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
     }, {
         key: "f12",
         type: "keydown",
-        active: function() {
+        active: function () {
             Code_Reactor.gui.Window.get().showDevTools();
         },
-        failed: function(msg) {
+        failed: function (msg) {
             // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
     }, {
         key: "ctrl+shift+=",
         type: "keydown",
-        active: function() {
+        active: function () {
             if (Code_Reactor.fontSize !== 26) {
                 $(".CodeMirror").css("font-size", ++Code_Reactor.fontSize);
                 document.getElementById('font-size').innerHTML = "Font Size - " + Code_Reactor.fontSize.toString() + 'px';
             }
         },
-        failed: function(msg) {
+        failed: function (msg) {
             // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
     }, {
         key: "ctrl+shift+-",
         type: "keydown",
-        active: function() {
+        active: function () {
             if (Code_Reactor.fontSize !== 8) {
                 $(".CodeMirror").css("font-size", --Code_Reactor.fontSize);
                 document.getElementById('font-size').innerHTML = "Font Size - " + Code_Reactor.fontSize.toString() + 'px';
             }
         },
-        failed: function(msg) {
+        failed: function (msg) {
             // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
     }, {
         key: "f5",
         type: "keydown",
-        active: function() {
+        active: function () {
             var win = Code_Reactor.gui.Window.get().reload();
         },
-        failed: function(msg) {
+        failed: function (msg) {
             // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
     }, {
         key: "f1",
         type: "keydown",
-        active: function() {
+        active: function () {
             Code_Reactor.SoundPlayer.play();
         },
-        failed: function(msg) {
+        failed: function (msg) {
             // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
     }, {
         key: "ctrl+right",
         type: "keydown",
-        active: function() {
+        active: function () {
             Code_Reactor.SoundPlayer.play_next();
         },
-        failed: function(msg) {
+        failed: function (msg) {
             // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
     }, {
         key: "ctrl+left",
         type: "keydown",
-        active: function() {
+        active: function () {
             Code_Reactor.SoundPlayer.play_previous();
         },
-        failed: function(msg) {
+        failed: function (msg) {
             // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
     }, {
         key: "ctrl+up",
         type: "keydown",
-        active: function() {
+        active: function () {
             Code_Reactor.SoundPlayer.increase_volume();
         },
-        failed: function(msg) {
+        failed: function (msg) {
             // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
     }, {
         key: "ctrl+down",
         type: "keydown",
-        active: function() {
+        active: function () {
             Code_Reactor.SoundPlayer.decrease_volume();
         },
-        failed: function(msg) {
+        failed: function (msg) {
             // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
@@ -677,6 +693,43 @@ var Code_Reactor = {
 };
 
 Code_Reactor.projectPath = Code_Reactor.appRoot;
+Code_Reactor.appRoot = Code_Reactor.path.resolve();
+
+switch (Code_Reactor.os.platform()) {
+    case 'win32':
+        Code_Reactor.dirSeperator = "\\";
+        $("#dirDialog").attr("nwworkingdir", "C:\\");
+        break;
+    case 'linux':
+        Code_Reactor.dirSeperator = "/";
+        $("#dirDialog").attr("nwworkingdir", "/");
+        break;
+    case 'freebsd':
+        Code_Reactor.dirSeperator = "/";
+        break;
+    case 'darwin':
+        Code_Reactor.dirSeperator = "/";
+        break;
+    default:
+        $("#dirDialog").attr("nwworkingdir", Code_Reactor.appRoot);
+        break;
+}
+
+// @class Editor
+Code_Reactor.Editor = require(Code_Reactor.appRoot + '/src/Editor/Editor.js');
+// @class File
+Code_Reactor.File = require(Code_Reactor.appRoot + '/src/File/File.js');
+// @class Directory
+Code_Reactor.Directory = require(Code_Reactor.appRoot + '/src/Directory/Directory.js');
+// @class Meta
+Code_Reactor.Meta = require(Code_Reactor.appRoot + '/src/Meta/Meta.js');
+// @class Log
+Code_Reactor.Log = require(Code_Reactor.appRoot + '/src/Log/Log.js');
+// @class SoundPlayer
+Code_Reactor.SoundPlayer = require(Code_Reactor.appRoot + '/src/sound/SoundPlayer.js');
+Code_Reactor.SoundPlayer = new Code_Reactor.SoundPlayer(Code_Reactor);
+// @class Git
+Code_Reactor.Git = require(Code_Reactor.appRoot + '/src/Tools/git.js');
 
 function render_all_GlslCanvas() {
     if (Code_Reactor.isGlslModeOn) {
@@ -687,33 +740,30 @@ function render_all_GlslCanvas() {
     }
 }
 
-// Emitted when the window is fully loaded
-Code_Reactor.gui.Window.get().on('loaded', function() {
-    try {
-        Code_Reactor.SoundPlayer.init();
-    } catch (e) {
-        console.error(e);
-    }
+window.onload = function () {
 
-    try {
-        Code_Reactor.init();
-    } catch (e) {
-        console.error(e);
-    }
+     try {
+         Code_Reactor.SoundPlayer.init();
+     } catch (e) {
+         console.error(e);
+     }
+
+    Code_Reactor.init();
+
 
     // Reload all files when editor gets focus
-    Code_Reactor.gui.Window.get().on('focus', function() {
+    Code_Reactor.gui.Window.get().on('focus', function () {
         Code_Reactor.openFolder(Code_Reactor.projectPath);
     });
 
     // Save all files when editor loses focus
-    Code_Reactor.gui.Window.get().on('blur', function() {
+    Code_Reactor.gui.Window.get().on('blur', function () {
         Code_Reactor.saveAllFiles();
     });
-});
+}
 
 // window onresize event
-window.onresize = function() {
+window.onresize = function () {
     for (var i = 0; i < Code_Reactor.editor.length; i++) {
         Code_Reactor.editor[0].setSize(window.innerWidth - 250, window.innerHeight - 72);
     }

@@ -11,7 +11,9 @@
  * @param {string} parent - Directory's parent element
  * @param {number} space - Tab space
  */
-Code_Reactor.Directory = function(filepath, parent, space) {
+Directory = function (Code_Reactor, filepath, parent, space) {
+
+    global.Code_Reactor = Code_Reactor;
 
     this.filepath = null;
     if (filepath !== undefined) {
@@ -34,7 +36,7 @@ Code_Reactor.Directory = function(filepath, parent, space) {
         console.warn("Forgot to pass 'parent' parameter! \n Default value ('workplace') 'll be used");
     }
 
-    this.id = 'ofolder' + Code_Reactor.directory.length;
+    this.id = 'ofolder' + this.instance;
 
     this.toAppend = true;
 
@@ -52,16 +54,14 @@ Code_Reactor.Directory = function(filepath, parent, space) {
 
 };
 
-Code_Reactor.Directory.prototype = {
+Directory.prototype = {
 
-    init: function() {
+    init: function () {
         // fetch files
         this.appendFolderToWorkplace();
     },
 
-    toggle: function() {
-
-        var x = '#ofolder' + this.instance.toString();
+    toggle: function () {
 
         if (this.files === null) {
             var pp = makeid(10);
@@ -89,7 +89,7 @@ Code_Reactor.Directory.prototype = {
             document.getElementById(this.id).innerHTML += inject;
 
             for (var i = 0; i < dirs.length; i++) {
-                var dir = new Code_Reactor.Directory(dirs[i], pp, this._space + 2);
+                var dir = new Code_Reactor.Directory(Code_Reactor, dirs[i], pp, this._space + 2);
                 dir.init();
                 Code_Reactor.directory.push(dir);
             }
@@ -98,20 +98,20 @@ Code_Reactor.Directory.prototype = {
         var zz = document.getElementsByName('dir' + this.instance)[0];
         this.toggled = !this.toggled;
         zz.id = this.getIcon();
-        $(x + ' > li span').parent().find('ul').toggle();
+        $('#' + this.id + ' > li span').parent().find('ul').toggle();
     },
 
-    close: function() {
+    close: function () {
         $("ul").remove("#" + this.id.toString());
     },
 
-    updateFoldername: function() {
+    updateFoldername: function () {
         this.foldername = this.filepath.split("/");
         this.foldername = this.foldername[this.foldername.length - 1];
         return this.foldername;
     },
 
-    appendFolderToWorkplace: function(path) {
+    appendFolderToWorkplace: function (path) {
         var foldername = this.updateFoldername();
         var iconPadding_left = '';
         if (this._space > 2) {
@@ -125,7 +125,7 @@ Code_Reactor.Directory.prototype = {
         this.toAppend = false;
     },
 
-    getIcon: function() {
+    getIcon: function () {
         if (this.toggled) {
             return 'triangle-down';
         } else {
@@ -134,3 +134,5 @@ Code_Reactor.Directory.prototype = {
     }
 
 };
+
+module.exports = Directory;

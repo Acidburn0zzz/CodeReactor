@@ -3,21 +3,31 @@
  * @license     {@link http://opensource.org/licenses/MIT|MIT License}
  */
 
-Code_Reactor.Git = {
+Git = function (Code_Reactor) {
 
-    hasGit: false,
+    global.Code_Reactor = Code_Reactor;
 
-    isRepo: false,
+    this.hasGit = false;
 
-    buffer: [],
+    this.isRepo = undefined;
+    try {
+        var stats = Code_Reactor.fs.lstatSync('.git');
+        this.isRepo = true;
+    } catch (e) {
+        this.isRepo = false;
+    }
 
+    this.buffer = [];
+};
+
+Git.prototype = {
     /**
      * Init repo
      * @method Code_Reactor.Git#inits
      */
-    init: function() {
+    init: function () {
         if (this.hasGit && !this.isRepo) {
-            Code_Reactor.shell.exec("git init", function(code, output) {
+            Code_Reactor.shell.exec("git init", function (code, output) {
                 if (code !== 0) {
                     Code_Reactor.log[0].log("Err", "Git init failed: " + output);
                 } else {
@@ -32,10 +42,10 @@ Code_Reactor.Git = {
      * Commit local changes!
      * @method Code_Reactor.Git#commit
      */
-    commit: function() {
+    commit: function () {
         if (this.hasGit && this.isRepo) {
             var message = prompt("Commit Message", "");
-            Code_Reactor.shell.exec('git commit -m "' + message + '"', function(code, output) {
+            Code_Reactor.shell.exec('git commit -m "' + message + '"', function (code, output) {
                 if (code !== 0) {
                     Code_Reactor.log[0].log("Err", "Git commit failed: " + output);
                 } else {
@@ -49,9 +59,9 @@ Code_Reactor.Git = {
      * Pull all changes from current tracking branch
      * @method Code_Reactor.Git#pull
      */
-    pull: function() {
+    pull: function () {
         if (this.hasGit && this.isRepo) {
-            Code_Reactor.shell.exec("git pull", function(code, output) {
+            Code_Reactor.shell.exec("git pull", function (code, output) {
                 if (code !== 0) {
                     Code_Reactor.log[0].log("Err", "Git pull failed: " + output);
                 } else {
@@ -65,9 +75,9 @@ Code_Reactor.Git = {
      * Push all commits to current tracking branch
      * @method Code_Reactor.Git#push
      */
-    push: function() {
+    push: function () {
         if (this.hasGit && this.isRepo) {
-            Code_Reactor.shell.exec("git push origin", function(code, output) {
+            Code_Reactor.shell.exec("git push origin", function (code, output) {
                 if (code !== 0) {
                     Code_Reactor.log[0].log("Err", "Git push failed: " + output);
                 } else {
@@ -81,12 +91,12 @@ Code_Reactor.Git = {
      * Clone a repo
      * @method Code_Reactor.Git#clone
      */
-    clone: function() {
+    clone: function () {
         if (this.hasGit && !this.isRepo) {
             var url = prompt("Repo URL", "https://");
             var branch = prompt("Branch", "master");
 
-            Code_Reactor.shell.exec("git clone -b" + branch + " " + url, function(code, output) {
+            Code_Reactor.shell.exec("git clone -b" + branch + " " + url, function (code, output) {
                 if (code !== 0) {
                     Code_Reactor.log[0].log("Err", "Git clone failed: " + output);
                 } else {
@@ -102,13 +112,13 @@ Code_Reactor.Git = {
      * Add file
      * @method Code_Reactor.Git#add
      */
-    add: function(file) {
+    add: function (file) {
         if (this.hasGit && this.isRepo) {
             if (file === undefined) {
                 var file = prompt("Add file", "README.md")
             }
 
-            Code_Reactor.shell.exec("git add " + file, function(code, output) {
+            Code_Reactor.shell.exec("git add " + file, function (code, output) {
                 if (code !== 0) {
                     Code_Reactor.log[0].log("Err", "Git add failed: " + output);
                 } else {
@@ -122,9 +132,9 @@ Code_Reactor.Git = {
      * Add all files
      * @method Code_Reactor.Git#addAll
      */
-    addAll: function() {
+    addAll: function () {
         if (this.hasGit && this.isRepo) {
-            this.modifiedFiles(function() {
+            this.modifiedFiles(function () {
                 for (var i = 0; i < Code_Reactor.Git.buffer.length; i++) {
                     Code_Reactor.Git.add('"' + Code_Reactor.Git.buffer[i] + '"');
                 }
@@ -137,13 +147,13 @@ Code_Reactor.Git = {
      * Reset file
      * @method Code_Reactor.Git#reset
      */
-    reset: function(file) {
+    reset: function (file) {
         if (this.hasGit && this.isRepo) {
             if (file === undefined) {
                 var file = prompt("Reset file", "README.md")
             }
 
-            Code_Reactor.shell.exec("git reset " + file, function(code, output) {
+            Code_Reactor.shell.exec("git reset " + file, function (code, output) {
                 if (code !== 0) {
                     Code_Reactor.log[0].log("Err", "Git reset failed: " + output);
                 } else {
@@ -157,9 +167,9 @@ Code_Reactor.Git = {
      * Reset all files
      * @method Code_Reactor.Git#reset
      */
-    resetAll: function() {
+    resetAll: function () {
         if (this.hasGit && this.isRepo) {
-            this.modifiedFiles(function() {
+            this.modifiedFiles(function () {
                 for (var i = 0; i < Code_Reactor.Git.buffer.length; i++) {
                     Code_Reactor.Git.reset('"' + Code_Reactor.Git.buffer[i] + '"');
                 }
@@ -172,7 +182,7 @@ Code_Reactor.Git = {
      * Detect if user has git and set inital values of "hasGit" var
      * @method Code_Reactor.Git#set
      */
-    set: function() {
+    set: function () {
         Code_Reactor.shell.cd(this.projectPath);
 
         this.hasGit = Code_Reactor.shell.which('git');
@@ -185,11 +195,11 @@ Code_Reactor.Git = {
      * Configure git
      * @method Code_Reactor.Git#config
      */
-    config: function() {
+    config: function () {
         if (this.hasGit) {
             var username = prompt("name", "Big.T");
 
-            Code_Reactor.shell.exec("git config --global user.name " + username, function(code, output) {
+            Code_Reactor.shell.exec("git config --global user.name " + username, function (code, output) {
                 if (code !== 0) {
                     Code_Reactor.log[0].log("Err", "Git config failed: " + output);
                 } else {
@@ -199,7 +209,7 @@ Code_Reactor.Git = {
 
             var email = prompt("email address", "big.t@gmail.com");
 
-            Code_Reactor.shell.exec("git config --global user.email " + email, function(code, output) {
+            Code_Reactor.shell.exec("git config --global user.email " + email, function (code, output) {
                 if (code !== 0) {
                     Code_Reactor.log[0].log("Err", "Git config failed: " + output);
                 } else {
@@ -214,8 +224,8 @@ Code_Reactor.Git = {
      * @method Code_Reactor.Git#modifiedFiles
      * @return {Array<string>}
      */
-    modifiedFiles: function(callback) {
-        Code_Reactor.shell.exec("git commit", function(code, output) {
+    modifiedFiles: function (callback) {
+        Code_Reactor.shell.exec("git commit", function (code, output) {
             var changes = output.split(/\r\n|\r|\n/);
 
             if (code !== 0) {
@@ -229,12 +239,6 @@ Code_Reactor.Git = {
             }
         });
     }
-
 };
 
-try {
-    var stats = Code_Reactor.fs.lstatSync('.git');
-    Code_Reactor.Git.isRepo = true;
-} catch (e) {
-    Code_Reactor.Git.isRepo = false;
-}
+module.exports = Git;

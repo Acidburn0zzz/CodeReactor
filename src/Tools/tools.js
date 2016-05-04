@@ -21,7 +21,7 @@
  * @attribute {string} isPath - indicates if string is a path to the shader or the shader itself
  * @attribute {string} src - source
  */
-function AppendCanvas(attributes, width, height, parent, Frag, Vert) {
+var AppendCanvas = function (attributes, width, height, parent, Frag, Vert) {
     var canvas0 = document.createElement('canvas');
     canvas0.width = width;
     canvas0.height = height;
@@ -51,30 +51,9 @@ function AppendCanvas(attributes, width, height, parent, Frag, Vert) {
     }
 
     document.getElementById(parent).appendChild(canvas0);
-}
-
-var mouse = {
-    x: 0,
-    y: 0
 };
-document.addEventListener('mousemove', function(e) {
-    mouse.x = e.clientX || e.pageX;
-    mouse.y = e.clientY || e.pageY
-}, false);
 
-// Provides requestAnimationFrame in a cross browser way.
-window.requestAnimFrame = (function() {
-    return window.requestAnimationFrame ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame ||
-        window.oRequestAnimationFrame ||
-        window.msRequestAnimationFrame ||
-        function(callback, element) {
-            return window.setTimeout(callback, 1000 / 60);
-        };
-})();
-
-function makeid(x, name) {
+var makeid = function (x, name) {
     if (x === undefined) {
         x = 5;
     }
@@ -90,4 +69,30 @@ function makeid(x, name) {
         text += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return text;
-}
+};
+
+
+var mouse = {
+    x: 0,
+    y: 0
+};
+
+document.addEventListener('mousemove', function (e) {
+    mouse.x = e.clientX || e.pageX;
+    mouse.y = e.clientY || e.pageY
+}, false);
+
+// Provides requestAnimationFrame in a cross browser way.
+window.requestAnimFrame = (function () {
+    return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function (callback, element) {
+            return window.setTimeout(callback, 1000 / 60);
+        };
+})();
+
+global.AppendCanvas = AppendCanvas;
+global.makeid = makeid;
