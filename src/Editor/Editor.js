@@ -12,9 +12,7 @@
  * @param {string} id - text area id *
  * @param {Array<object>} args - CodeMirror args (*optional)
  */
-var Editor = function(Code_Reactor, width, height, id, args) {
-
-    global.Code_Reactor = Code_Reactor;
+Code_Reactor.Editor = function(Code_Reactor, width, height, id, args) {
 
     if (width === undefined) {
         this.width = -1;
@@ -49,7 +47,7 @@ var Editor = function(Code_Reactor, width, height, id, args) {
     this.file = null;
 };
 
-Editor.prototype = {
+Code_Reactor.Editor.prototype = {
 
     init: function() {
         this.editor = CodeMirror.fromTextArea(document.getElementById(this.id), this.args);
@@ -92,5 +90,3 @@ Editor.prototype = {
     }
 
 };
-
-module.exports = Editor;

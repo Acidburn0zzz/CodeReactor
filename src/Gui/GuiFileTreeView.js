@@ -10,7 +10,7 @@
  * @param {Array<object>} files - files
  * @param {int} tabSize - tabSize
  */
-FileTreeView = function(directories, files, tabSize) {
+let FileTreeView = function(directories, files, tabSize) {
     this.directories = [];
     if (directories !== undefined) {
         this.directories = directories;

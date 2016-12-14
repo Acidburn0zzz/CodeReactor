@@ -82,10 +82,13 @@ $RECYCLE.BIN/
 
 # NW.js
 /locales/
+/pnacl/
 /*.dll
 /*.exe
 /*.pak
 /*.dat
+/*.bin
 /nwjc
 /nw
 /libffmpegsumo.so
+/nacl_irt_x86_64.nexe

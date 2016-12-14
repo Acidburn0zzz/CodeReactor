@@ -11,9 +11,7 @@
  * @param {string} filepath - the global filepath of the log file (*optional)
  * @param {number} maxSize - max size of log file in bytes (*optional)
  */
-var Log = function (nCode_Reactor, ame, filepath, maxSize) {
-
-    global.Code_Reactor = Code_Reactor;
+Code_Reactor.Meta = function (nCode_Reactor, ame, filepath, maxSize) {
 
     this.name = "uunnamed";
     if (name !== undefined) {
@@ -40,7 +38,7 @@ var Log = function (nCode_Reactor, ame, filepath, maxSize) {
     this.d = new Date();
 };
 
-Log.prototype = {
+Code_Reactor.Meta.prototype = {
     log: function (type, value) {
         var fs = Code_Reactor.fs;
         var fileRoot = this.filepath.trim().split("\\");
@@ -104,5 +102,3 @@ Log.prototype = {
     }
 
 };
-
-module.exports = Log;

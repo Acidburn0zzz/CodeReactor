@@ -11,9 +11,7 @@
  * @param {string} parent - Directory's parent element
  * @param {number} space - Tab space
  */
-var Directory = function (Code_Reactor, filepath, parent, space) {
-
-    global.Code_Reactor = Code_Reactor;
+Code_Reactor.Directory = function (Code_Reactor, filepath, parent, space) {
 
     this.filepath = null;
     if (filepath !== undefined) {
@@ -54,7 +52,7 @@ var Directory = function (Code_Reactor, filepath, parent, space) {
 
 };
 
-Directory.prototype = {
+Code_Reactor.Directory.prototype = {
 
     init: function () {
         // fetch files
@@ -134,5 +132,3 @@ Directory.prototype = {
     }
 
 };
-
-module.exports = Directory;

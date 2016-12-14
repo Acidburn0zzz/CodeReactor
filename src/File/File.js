@@ -10,9 +10,7 @@
  * @param {string} filepath - File's global filepath (*optional)
  * @param {number} viewport - viewport to render the file on (*required)
  */
-var File = function (Code_Reactor, filepath, viewport) {
-
-    global.Code_Reactor = Code_Reactor;
+Code_Reactor.File = function (Code_Reactor, filepath, viewport) {
 
     this.filepath = null;
     if (filepath === undefined) {
@@ -44,7 +42,7 @@ var File = function (Code_Reactor, filepath, viewport) {
 
 };
 
-File.prototype = {
+Code_Reactor.File.prototype = {
 
     new: function () {
         this.appendToWorkplace();
@@ -375,5 +373,3 @@ File.prototype = {
     }
 
 };
-
-module.exports = File;

@@ -3,9 +3,7 @@
  * @license     {@link http://opensource.org/licenses/MIT|MIT License}
  */
 
-var SoundPlayer = function (Code_Reactor) {
-
-    global.Code_Reactor = Code_Reactor;
+Code_Reactor.SoundPlayer = function (Code_Reactor) {
 
     this.player = undefined;
 
@@ -16,7 +14,7 @@ var SoundPlayer = function (Code_Reactor) {
     this.isPlaying = false;
 };
 
-SoundPlayer.prototype = {
+Code_Reactor.SoundPlayer.prototype = {
 
     init: function () {
 
@@ -133,5 +131,3 @@ SoundPlayer.prototype = {
         }
     }
 };
-
-module.exports = SoundPlayer;

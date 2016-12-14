@@ -9,7 +9,7 @@
 /*
  * Convert a 32-bit number to a hex string with ls-byte first
  */
-var hex_chr = "0123456789abcdef";
+let hex_chr = "0123456789abcdef";
 
 function rhex(num) {
     str = "";

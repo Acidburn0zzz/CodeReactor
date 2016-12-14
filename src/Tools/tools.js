@@ -21,7 +21,7 @@
  * @attribute {string} isPath - indicates if string is a path to the shader or the shader itself
  * @attribute {string} src - source
  */
-var AppendCanvas = function (attributes, width, height, parent, Frag, Vert) {
+let AppendCanvas = function (attributes, width, height, parent, Frag, Vert) {
     var canvas0 = document.createElement('canvas');
     canvas0.width = width;
     canvas0.height = height;
@@ -53,13 +53,13 @@ var AppendCanvas = function (attributes, width, height, parent, Frag, Vert) {
     document.getElementById(parent).appendChild(canvas0);
 };
 
-var makeid = function (x, name) {
+let makeid = function (x, name) {
     if (x === undefined) {
         x = 5;
     }
 
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let text = "";
+    let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
     if (name === undefined || name === false) {
         possible += "`~!@#$%^&*({<[]}>)";
@@ -72,7 +72,7 @@ var makeid = function (x, name) {
 };
 
 
-var mouse = {
+let mouse = {
     x: 0,
     y: 0
 };
@@ -93,6 +93,3 @@ window.requestAnimFrame = (function () {
             return window.setTimeout(callback, 1000 / 60);
         };
 })();
-
-global.AppendCanvas = AppendCanvas;
-global.makeid = makeid;

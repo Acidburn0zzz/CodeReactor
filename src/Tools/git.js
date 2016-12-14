@@ -3,9 +3,7 @@
  * @license     {@link http://opensource.org/licenses/MIT|MIT License}
  */
 
-var Git = function (Code_Reactor) {
-
-    global.Code_Reactor = Code_Reactor;
+Code_Reactor.Git = function (Code_Reactor) {
 
     this.hasGit = false;
 
@@ -20,7 +18,7 @@ var Git = function (Code_Reactor) {
     this.buffer = [];
 };
 
-Git.prototype = {
+Code_Reactor.Git.prototype = {
     /**
      * Init repo
      * @method Code_Reactor.Git#inits
@@ -240,5 +238,3 @@ Git.prototype = {
         });
     }
 };
-
-module.exports = Git;
