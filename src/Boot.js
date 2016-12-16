@@ -1,3 +1,5 @@
+"use strict";
+
 // @namespace Coder Reactor
 let Code_Reactor = {
 
@@ -53,6 +55,8 @@ let Code_Reactor = {
     fontSize: 16,
 
     font_family: "typewcond_regular",
+
+    projectPath: undefined,
 
     playlistURL: "https://soundcloud.com/alex-mourtziapis/sets/coding-playlist",
 
@@ -280,3 +284,38 @@ let Code_Reactor = {
         }
     }]
 };
+
+Code_Reactor.projectPath = Code_Reactor.appRoot;
+Code_Reactor.appRoot = Code_Reactor.path.resolve();
+
+window.onload = function () {
+    try {
+        Code_Reactor.SoundPlayer = new Code_Reactor.SoundPlayer(Code_Reactor);
+        Code_Reactor.SoundPlayer.init();
+    } catch (e) {
+        console.error(e);
+    }
+
+    Code_Reactor.init();
+
+
+    // Reload all files when editor gets focus
+    Code_Reactor.gui.Window.get().on('focus', function () {
+        Code_Reactor.openFolder(Code_Reactor.projectPath);
+    });
+
+    // Save all files when editor loses focus
+    Code_Reactor.gui.Window.get().on('blur', function () {
+        Code_Reactor.saveAllFiles();
+    });
+};
+
+// window onresize event
+window.onresize = function () {
+    for (let i = 0; i < Code_Reactor.editor.length; i++) {
+        Code_Reactor.editor[0].setSize(window.innerWidth - 250, window.innerHeight - 72);
+    }
+    Code_Reactor.toggleGLSLMode(true);
+    Code_Reactor.editor[0].loadContent(Code_Reactor.editor[0].editor.getValue());
+};
+

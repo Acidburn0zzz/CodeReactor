@@ -12,21 +12,11 @@
  */
 Code_Reactor.File = function (Code_Reactor, filepath, viewport) {
 
-    this.filepath = null;
-    if (filepath === undefined) {
-        console.log('filepath not given!');
-    } else {
-        this.filepath = filepath;
-    }
+    this.filepath = filepath || console.log('filepath not given!');;
 
     this.encoding = 'utf8';
 
-    this.viewport = 0;
-    if (viewport === undefined) {
-        console.error("Eh fatcho, you forgot to pass the viewport parameter");
-    } else {
-        this.viewport = viewport;
-    }
+    this.viewport = viewport || 0;
 
     this.filename = null;
 

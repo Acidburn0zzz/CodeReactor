@@ -3,8 +3,6 @@
  * @license     {@link http://opensource.org/licenses/MIT|MIT License}
  */
 
-//"use strict";
-
 /**
  * Initialize Code Reactor
  * @method Code_Reactor.init
@@ -404,9 +402,6 @@ Code_Reactor._getAllFilesFromFolder = function (path, filesOnly) {
     return results;
 };
 
-Code_Reactor.projectPath = Code_Reactor.appRoot;
-Code_Reactor.appRoot = Code_Reactor.path.resolve();
-
 switch (Code_Reactor.os.platform()) {
     case 'win32':
         Code_Reactor.dirSeperator = "\\";
@@ -435,34 +430,3 @@ function render_all_GlslCanvas() {
         window.requestAnimFrame(render_all_GlslCanvas);
     }
 }
-
-window.onload = function () {
-    try {
-        Code_Reactor.SoundPlayer = new Code_Reactor.SoundPlayer(Code_Reactor);
-        Code_Reactor.SoundPlayer.init();
-    } catch (e) {
-        console.error(e);
-    }
-
-    Code_Reactor.init();
-
-
-    // Reload all files when editor gets focus
-    Code_Reactor.gui.Window.get().on('focus', function () {
-        Code_Reactor.openFolder(Code_Reactor.projectPath);
-    });
-
-    // Save all files when editor loses focus
-    Code_Reactor.gui.Window.get().on('blur', function () {
-        Code_Reactor.saveAllFiles();
-    });
-};
-
-// window onresize event
-window.onresize = function () {
-    for (let i = 0; i < Code_Reactor.editor.length; i++) {
-        Code_Reactor.editor[0].setSize(window.innerWidth - 250, window.innerHeight - 72);
-    }
-    Code_Reactor.toggleGLSLMode(true);
-    Code_Reactor.editor[0].loadContent(Code_Reactor.editor[0].editor.getValue());
-};

@@ -13,10 +13,7 @@
  */
 Code_Reactor.Directory = function (Code_Reactor, filepath, parent, space) {
 
-    this.filepath = null;
-    if (filepath !== undefined) {
-        this.filepath = filepath;
-    }
+    this.filepath = filepath || null;
 
     this.instance = Code_Reactor.directory.length;
 
@@ -27,12 +24,7 @@ Code_Reactor.Directory = function (Code_Reactor, filepath, parent, space) {
 
     this.files = null;
 
-    if (parent !== undefined) {
-        this.parent = parent;
-    } else {
-        this.parent = 'workplace';
-        console.warn("Forgot to pass 'parent' parameter! \n Default value ('workplace') 'll be used");
-    }
+    this.parent = parent || 'workplace';
 
     this.id = 'ofolder' + this.instance;
 
@@ -40,14 +32,11 @@ Code_Reactor.Directory = function (Code_Reactor, filepath, parent, space) {
 
     this._space = 2;
     this.space = '';
-    if (space !== undefined) {
-        this._space = space;
 
-        for (var i = 0; i < space; i++) {
-            this.space += '&nbsp;';
-        }
-    } else {
-        console.error("Forgot to pass 'space' parameter!");
+    this._space = space || console.error("Forgot to pass 'space' parameter!");
+
+    for (let i = 0; space && (i < space); i++) {
+        this.space += '&nbsp;';
     }
 
 };

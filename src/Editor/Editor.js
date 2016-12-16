@@ -14,31 +14,13 @@
  */
 Code_Reactor.Editor = function(Code_Reactor, width, height, id, args) {
 
-    if (width === undefined) {
-        this.width = -1;
-    } else {
-        this.width = width;
-    }
+    this.width = width || -1;
 
-    if (height === undefined) {
-        this.height = -1;
-    } else {
-        this.height = height;
-    }
+    this.height = height || -1;
 
-    if (id === undefined) {
-        console.error('Error: "id" is undefined');
-    } else {
-        this.id = id;
-    }
+    this.id = id || console.error('Error: "id" is undefined');
 
-    if (args === undefined) {
-        this.args = {
-            error: 1
-        };
-    } else {
-        this.args = args;
-    }
+    this.args = args || { error: 1 };
 
     this.editor = null;
 
@@ -56,18 +38,21 @@ Code_Reactor.Editor.prototype = {
 
         this.editor.on("change", function(cm, change) {
 
-            file = Code_Reactor.editor[instance].file;
+          file = Code_Reactor.editor[instance].file;
 
+          if(Code_Reactor.file[file]){
             try {
-                Code_Reactor.file[file].content = cm.getValue();
+                Code_Reactor.file[file].content = cm.getValue() || "";
             } catch (e) {
                 console.warn(e);
             }
 
             if (Code_Reactor.isGlslModeOn) {
-                Code_Reactor.billboard.load(cm.getValue());
-                Code_Reactor.billboard.render(true);
+              Code_Reactor.billboard.load(cm.getValue());
+              Code_Reactor.billboard.render(true);
             }
+
+          }
 
         });
 
