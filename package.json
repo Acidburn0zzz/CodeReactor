@@ -23,7 +23,6 @@
         "position": "center"
     },
     "scripts": {
-        "precommit": "npm run beautify",
         "beautify": "node scripts/Beautify.js",
         "clean": "node scripts/Clean.js",
         "minify": "node scripts/Minify.js",
@@ -51,7 +50,6 @@
         "grunt": "^1.0.1",
         "grunt-contrib-copy": "^1.0.0",
         "grunt-nw-builder": "^3.1.0",
-        "husky": "^0.11.9",
         "nw-builder": "^3.1.2"
     }
 }

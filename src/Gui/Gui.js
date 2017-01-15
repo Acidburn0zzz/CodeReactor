@@ -6,8 +6,8 @@
 /**
  * @class Code_Reactor.Gui
  */
-Code_Reactor.Gui = function() {
-    this.FileTreeView = require("./GuiFileTreeView");
+Code_Reactor.Gui = function () {
+  this.FileTreeView = require("./GuiFileTreeView");
 };
 
 Code_Reactor.Gui.prototype = {

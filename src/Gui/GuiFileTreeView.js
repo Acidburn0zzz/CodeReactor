@@ -10,43 +10,43 @@
  * @param {Array<object>} files - files
  * @param {int} tabSize - tabSize
  */
-let FileTreeView = function(directories, files, tabSize) {
-    this.directories = [];
-    if (directories !== undefined) {
-        this.directories = directories;
-    }
+let FileTreeView = function (directories, files, tabSize) {
+  this.directories = [];
+  if (directories !== undefined) {
+    this.directories = directories;
+  }
 
-    this.files = [];
-    if (files !== undefined) {
-        this.files = files;
-    }
+  this.files = [];
+  if (files !== undefined) {
+    this.files = files;
+  }
 
-    this.tabSize = 2;
-    if (tabSize !== undefined) {
-        this.tabSize = tabSize;
-    }
+  this.tabSize = 2;
+  if (tabSize !== undefined) {
+    this.tabSize = tabSize;
+  }
 
-    this.contentsLength = this.directories.length + this.directories.length;
+  this.contentsLength = this.directories.length + this.directories.length;
 
 };
 
 FileTreeView.prototype = {
 
-    sortByName: function() {
-        //@ToDo
-    },
+  sortByName: function () {
+    //@ToDo
+  },
 
-    sortBySize: function() {
-        //@ToDo
-    },
+  sortBySize: function () {
+    //@ToDo
+  },
 
-    sortByLoC: function() {
-        //@ToDo
-    },
+  sortByLoC: function () {
+    //@ToDo
+  },
 
-    appendFolder: function() {
+  appendFolder: function () {
 
-    }
+  }
 };
 
 module.exports = FileTreeView;
