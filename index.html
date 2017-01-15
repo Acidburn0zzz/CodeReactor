@@ -46,9 +46,22 @@
     <div id="tilebar">
         <img id="icon" src="icon.png">
         <div id="song_playin"></div>
-        <img src="icons/tilebar/close.png" id="terminate" onmouseover="this.src = 'icons/tilebar/close_hover.png'" onmouseout="this.src = 'icons/tilebar/close.png'" onclick="Code_Reactor.terminate()">
-        <img src="icons/tilebar/fullscreen.png" id="toggleFullscreen" onmouseover="this.src = 'icons/tilebar/fullscreen_hover.png'" onmouseout="this.src = 'icons/tilebar/fullscreen.png'" onclick="Code_Reactor.toggleFullscreen()">
-        <img src="icons/tilebar/minimize.png" id="minimize" onmouseover="this.src = 'icons/tilebar/minimize_hover.png'" onmouseout="this.src = 'icons/tilebar/minimize.png'" onclick="Code_Reactor.minimize()">
+
+      <div id="controls">
+        <div id="minimize">
+          <img src="icons/tilebar/minimize.svg" onclick="Code_Reactor.minimize()">
+        </div>
+        <div id="toggleFullscreen">
+          <img src="icons/tilebar/fullscreen.svg" onclick="
+            if(Code_Reactor.gui.Window.get().isFullscreen) this.src = 'icons/tilebar/fullscreen.svg';
+            else this.src = 'icons/tilebar/window.svg';
+            Code_Reactor.toggleFullscreen();
+          ">
+        </div>
+        <div id="terminate">
+          <img src="icons/tilebar/close.svg" onclick="Code_Reactor.terminate()">
+        </div>
+      </div>
     </div>
 
     <div id="sidebar">

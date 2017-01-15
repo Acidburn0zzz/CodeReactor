@@ -91,6 +91,10 @@ Code_Reactor.init = function () {
     }
 };
 
+/**
+ * Update editor's config files
+ * @method Code_Reactor.updateConfig
+ */
 Code_Reactor.updateConfig = function () {
     let configPath = this.gui.App.dataPath + this.dirSeperator + "config.json";
 
@@ -327,7 +331,7 @@ Code_Reactor.saveAllFiles = function () {
  */
 Code_Reactor.toggleGLSLMode = function (on) {
 
-    this.isGlslModeOn = on;
+    this.isGlslModeOn = on || false;
 
     if (this.billboard !== null) {
         $("#GlslCanvas0").remove();

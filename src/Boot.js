@@ -106,97 +106,88 @@ let Code_Reactor = {
     /**
      * Code Reactor shortcuts {Array<object>}
      */
-    shortcuts: [{
+    shortcuts: [{// @hotkey - Open File
         key: "ctrl+o",
         type: "keydown",
         active: function () {
             Code_Reactor.openFile();
         },
         failed: function (msg) {
-            // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
-    }, {
+    }, {// @hotkey - New File
         key: "ctrl+n",
         type: "keydown",
         active: function () {
             Code_Reactor.newFile();
         },
         failed: function (msg) {
-            // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
-    }, {
+    }, {// @hotkey - Save as...
         key: "ctrl+shift+s",
         type: "keydown",
         active: function () {
             Code_Reactor.saveFile(true);
         },
         failed: function (msg) {
-            // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
-    }, {
+    }, {// @hotkey - Save
         key: "ctrl+s",
         type: "keydown",
         active: function () {
             Code_Reactor.saveFile(false);
         },
         failed: function (msg) {
-            // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
-    }, {
+    }, {// @hotkey - Save All Files
         key: "Alt+Ctrl+s",
         type: "keydown",
         active: function () {
             Code_Reactor.saveAllFiles();
         },
         failed: function (msg) {
-            // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
-    }, {
+    }, {// @hotkey - Open Folder
         key: "ctrl+shift+o",
         type: "keydown",
         active: function () {
             Code_Reactor.openFolder();
         },
         failed: function (msg) {
-            // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
-    }, {
+    }, {// @hotkey - Close File
         key: "ctrl+w",
         type: "keydown",
         active: function () {
             Code_Reactor.close(Code_Reactor.editor[0].file);
         },
         failed: function (msg) {
-            // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
-    }, {
+    }, {// @hotkey - Close All Files
         key: "ctrl+shift+w",
         type: "keydown",
         active: function () {
             Code_Reactor.closeAll();
         },
         failed: function (msg) {
-            // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
-    }, {
+    }, {// @hotkey - NW.js Developer Tools
         key: "f12",
         type: "keydown",
         active: function () {
             Code_Reactor.gui.Window.get().showDevTools();
         },
         failed: function (msg) {
-            // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
-    }, {
+    }, {// @hotkey - Increase Font Size
         key: "ctrl+shift+=",
         type: "keydown",
         active: function () {
@@ -206,10 +197,9 @@ let Code_Reactor = {
             }
         },
         failed: function (msg) {
-            // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
-    }, {
+    }, {// @hotkey - Decrease Font Size
         key: "ctrl+shift+-",
         type: "keydown",
         active: function () {
@@ -219,67 +209,78 @@ let Code_Reactor = {
             }
         },
         failed: function (msg) {
-            // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
-    }, {
+    }, {// @hotkey - Refresh the container
         key: "f5",
         type: "keydown",
         active: function () {
             let win = Code_Reactor.gui.Window.get().reload();
         },
         failed: function (msg) {
-            // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
-    }, {
+    }, {// @hotkey - Start Streaming Music from SoundCloud
         key: "f1",
         type: "keydown",
         active: function () {
             Code_Reactor.SoundPlayer.play();
         },
         failed: function (msg) {
-            // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
-    }, {
+    }, {// @hotkey - Next Track
         key: "ctrl+right",
         type: "keydown",
         active: function () {
             Code_Reactor.SoundPlayer.play_next();
         },
         failed: function (msg) {
-            // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
-    }, {
+    }, {// @hotkey - Previous Track
         key: "ctrl+left",
         type: "keydown",
         active: function () {
             Code_Reactor.SoundPlayer.play_previous();
         },
         failed: function (msg) {
-            // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
-    }, {
+    }, {// @hotkey - Increase Volume
         key: "ctrl+up",
         type: "keydown",
         active: function () {
             Code_Reactor.SoundPlayer.increase_volume();
         },
         failed: function (msg) {
-            // :(, fail to register the |key| or couldn't parse the |key|.
             console.error(msg);
         }
-    }, {
+    }, {// @hotkey - Decrease Volume
         key: "ctrl+down",
         type: "keydown",
         active: function () {
             Code_Reactor.SoundPlayer.decrease_volume();
         },
         failed: function (msg) {
-            // :(, fail to register the |key| or couldn't parse the |key|.
+            console.error(msg);
+        }
+    }, { // @ToDO // @hotkey - Split Horizontally
+        key: "shift+o",
+        type: "keydown",
+        active: function () {
+            // @ToDo Implement Split Editor horizontally
+        },
+        failed: function (msg) {
+            console.error(msg);
+        }
+    }, { // @ToDO // @hotkey - Split Vertically
+        key: "shift+e",
+        type: "keydown",
+        active: function () {
+            // @ToDo Implement Split Editor vertically
+        },
+        failed: function (msg) {
             console.error(msg);
         }
     }]
@@ -297,7 +298,6 @@ window.onload = function () {
     }
 
     Code_Reactor.init();
-
 
     // Reload all files when editor gets focus
     Code_Reactor.gui.Window.get().on('focus', function () {
