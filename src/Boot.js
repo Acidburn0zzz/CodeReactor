@@ -301,12 +301,12 @@ window.onload = function () {
 
     // Reload all files when editor gets focus
     Code_Reactor.gui.Window.get().on('focus', function () {
-        Code_Reactor.openFolder(Code_Reactor.projectPath);
+//        Code_Reactor.openFolder(Code_Reactor.projectPath);
     });
 
     // Save all files when editor loses focus
     Code_Reactor.gui.Window.get().on('blur', function () {
-        Code_Reactor.saveAllFiles();
+//        Code_Reactor.saveAllFiles();
     });
 };
 

@@ -14,19 +14,15 @@
 Code_Reactor.Directory = function (Code_Reactor, filepath, parent, space) {
 
   this.filepath = filepath || null;
+  this.parent = parent || 'workplace';
 
   this.instance = Code_Reactor.directory.length;
+  this.id = 'ofolder' + this.instance;
 
   this.toggled = false;
 
-  // dir name
   this.foldername = null;
-
   this.files = null;
-
-  this.parent = parent || 'workplace';
-
-  this.id = 'ofolder' + this.instance;
 
   this.toAppend = true;
 
@@ -38,7 +34,6 @@ Code_Reactor.Directory = function (Code_Reactor, filepath, parent, space) {
   for (let i = 0; space && (i < space); i++) {
     this.space += '&nbsp;';
   }
-
 };
 
 Code_Reactor.Directory.prototype = {

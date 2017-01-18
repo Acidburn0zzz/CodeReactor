@@ -193,9 +193,8 @@ Code_Reactor.newMetaFile = function (name, filepath, content) {
  * @method Code_Reactor.openFile
  */
 Code_Reactor.openFile = function (path, append, close) {
-  if (close !== undefined && close === true) {
+  if (close)
     this.closeAll();
-  }
 
   let file = new Code_Reactor.File(this, path, 0);
   file.open(path, append);
@@ -284,6 +283,8 @@ Code_Reactor.close = function (instance) {
   if (this.file.length > 0) {
     this.file[instance].close();
     Code_Reactor.file.splice(instance, 1);
+    //@ToDo -
+    this.editor[0].clear();
   }
 };
 
@@ -293,17 +294,17 @@ Code_Reactor.close = function (instance) {
  */
 Code_Reactor.closeAll = function () {
   if (this.file.length > 0) {
-    for (let i = 0; i < this.file.length; i++) {
-      this.file[i].close();
-    }
+    for (let i = 0; i < this.file.length; i++)  this.file[i].close();
     this.file = [];
   }
 
   if (this.directory.length > 0) {
-    for (i = 0; i < this.directory.length; i++) {
-      this.directory[i].close();
-    }
+    for (let i = 0; i < this.directory.length; i++) this.directory[i].close();
     this.directory = [];
+  }
+
+  if(this.editor.length > 0){
+    for (let i = 0; i < this.editor.length; i++)  this.editor[i].clear();
   }
 };
 

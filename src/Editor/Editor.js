@@ -35,8 +35,8 @@ Code_Reactor.Editor.prototype = {
 
   init: function () {
     this.editor = CodeMirror.fromTextArea(document.getElementById(this.id), this.args);
-    var file = this.file;
-    var instance = this.instance;
+    let file = this.file;
+    let instance = this.instance;
 
     this.editor.on("change", function (cm, change) {
 
@@ -74,6 +74,11 @@ Code_Reactor.Editor.prototype = {
 
   loadContent: function (value) {
     this.editor.setValue(value);
+  },
+
+  clear: function(){
+    this.editor.setValue("");
+    this.editor.clearHistory();
   }
 
 };
